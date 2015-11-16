@@ -21,27 +21,74 @@ block content
           li
             a#logout-btn(href ng-click="page.selectView(4)" ng-show="page.authUser") Log Out
   #dashboard
-    h1 MaxVote
-    p Create custom polls with live results.
-    button.btn(ng-show="page.isSelected(0)") Sign Up
+    #dashboard-home(ng-show="!page.authUser")
+      h1 MaxVote
+      p Create custom polls with live results.
+      div#dashboard-signup.btn(ng-show="page.isSelected(0)", ng-click="page.selectView(1)") Sign Up
+    #dashboard-auth(ng-show="page.authUser")
+      h1 Dashboard
+      p What would you like to do?
+      div#dashboard-newpoll.btn(ng-show="page.isSelected(5) || page.isSelected(6)" ng-click="page.selectView(6)") New Poll
+      div#dashboard-mypolls.btn(ng-show="page.isSelected(5) || page.isSelected(6)" ng-click="page.selectView(5)") My Polls
     
-  #body.container(ng-show="page.isSelected(0)")
-    div.row
-      div.col-sm-4
-        i#chart-icon.fa.fa-area-chart
-        h3 Live Results
-        p Immediately see the results of your polls in a variety of easy to understand ways.
-      div.col-sm-4
-        i#road-icon.fa.fa-road
-        h3 Works Everywhere
-        p Your polls will not only work on desktops, but tablets and smartphones as well.
-      div.col-sm-4
-        i#twitter-icon.fa.fa-twitter
-        h3 Social Connection
-        p Our polls are easily integrated with social networking in order to quickly spread the word.
-    
-    #signup.container(ng-show="page.isSelected(1)")
+  #body.container
+    #body-home(ng-show="page.isSelected(0)")
+      div.row
+        div.col-sm-4
+          i#chart-icon.fa.fa-area-chart
+          h3 Live Results
+          p Immediately see the results of your polls in a variety of easy to understand ways.
+        div.col-sm-4
+          i#road-icon.fa.fa-road
+          h3 Works Everywhere
+          p Your polls will not only work on desktops, but tablets and smartphones as well.
+        div.col-sm-4
+          i#twitter-icon.fa.fa-twitter
+          h3 Social Connection
+          p Our polls are easily integrated with social networking in order to quickly spread the word.
+    #body-signup(ng-show="page.isSelected(1)")  
+      div.row
+        label Name
+        br
+        input#signup-name(type="text")
+      div.row
+        label Email
+        br
+        input#signup-email(type="email")
+      div.row
+        label Password
+        br
+        input#signup-pass(type="password")
+      div.row
+        div#generic-signup.btn Sign up
+        div#twitter-signup.btn #[i.fa.fa-twitter] Connect with Twitter
+    #body-login(ng-show="page.isSelected(2)")
+      div.row
+        label Email
+        br
+        input#login-email(type="email")
+      div.row
+        label Password
+        br
+        input#login-pass(type="password")
+      div.row
+        div#generic-login.btn Log in
+        div#twitter-login.btn #[i.fa.fa-twitter] Sign in with Twitter
+    #body-settings(ng-show="page.isSelected(3)")
+      div.row
+        label Current Password
+        br
+        input#settings-current(type="password")
+      div.row
+        label New Password
+        br
+        input#settings-new(type="password")
+      div.row
+        div#settings-btn.btn Confirm
+    #body-mypolls(ng-show="page.isSelected(5)")
+      p My Polls
+    #body-newpoll(ng-show="page.isSelected(6)")
+      p New Poll
       
-  
   #footer.navbar-fixed-bottom(ng-show="page.isSelected(0)")
       p #[a(href="http://www.freecodecamp.com/masharp", target="_blank") Michael Sharp] for FreeCodeCamp

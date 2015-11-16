@@ -15,10 +15,10 @@ body {
 }
 #dashboard {
   background-color: $main-color;
-  padding: 50px;
+  padding: 40px;
   text-align: center;
   color: white;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   h1 {
     font-size: 4em;
@@ -27,14 +27,37 @@ body {
     padding-bottom: 15px;
     font-size: 1.2em;
   }
-  button {
+  #dashboard-signup {
     background-color: $accent-color;
+    color: white;
     width: 10em;
     font-weight: bold;
 
     &:hover {
-      background-color: white;
-      color: $accent-color;
+      background-color: darken($accent-color, 10);
+    }
+  }
+  #dashboard-auth {
+    #dashboard-newpoll {
+      background-color: green;
+      color: white;
+      margin-right: 30px;
+      width: 10em;
+      font-weight: bold;
+
+      &:hover {
+        background-color: darken(green, 10);
+      }
+    }
+    #dashboard-mypolls {
+      background-color: $accent-color;
+      color: white;
+      width: 10em;
+      font-weight: bold;
+      
+      &:hover {
+        background-color: darken($accent-color, 10);
+      }
     }
   }
 }
@@ -52,6 +75,56 @@ body {
   }
   #twitter-icon {
     color: #55ACEE;
+  }
+  #body-signup, #body-login {
+    text-align: left;
+
+    label {
+      margin-top: 5px;
+    }
+    input {
+      margin-bottom: 20px;
+      width: 50%;
+    }
+    .btn {
+      margin-right: 50px;
+    }
+    #generic-signup, #generic-login {
+      background-color: green;
+      color: white;
+      &:hover {
+        background-color: darken(green, 10);
+      }
+    }
+    #twitter-signup, #twitter-login {
+      background-color: #55ACEE;
+      color: white;
+      margin-right: 50px;
+      i {
+        font-size: 1em;
+      }
+      &:hover {
+        background-color: darken(#55ACEE, 10);
+      }
+    }
+  }
+  #body-settings {
+    text-align: left;
+
+    label {
+      margin-top: 5px;
+    }
+    input {
+      margin-bottom: 20px;
+      width: 50%;
+    }
+    #settings-btn {
+      background-color: red;
+      color: white;
+      &:hover {
+        background-color: darken(red, 10);
+      }
+    }
   }
 }
 #footer {

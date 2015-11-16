@@ -15,8 +15,14 @@ the FreeCodeCamp curriculum.
   * Initial skeleton project created.
   * Added home page markup, styling, and basic Angular functionality.
 
+###Nov.16, 2015
+  * Finished Angular view control functionality
+  * Implemented markup and styling for each view
+
 ##To Do
   * Finish Angular page views
   * Test page view functionality
   * Add markups for various views
   * Add database (MongoDB or PostgreSQL?)
+  * Heroku
+  * Connect app to twitter api for login and tweets

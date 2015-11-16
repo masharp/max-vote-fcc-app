@@ -9,22 +9,37 @@ body {
 
 #dashboard {
   background-color: #A0785A;
-  padding: 50px;
+  padding: 40px;
   text-align: center;
   color: white;
-  margin-bottom: 30px; }
+  margin-bottom: 20px; }
   #dashboard h1 {
     font-size: 4em; }
   #dashboard p {
     padding-bottom: 15px;
     font-size: 1.2em; }
-  #dashboard button {
+  #dashboard #dashboard-signup {
     background-color: #325B7A;
+    color: white;
     width: 10em;
     font-weight: bold; }
-    #dashboard button:hover {
-      background-color: white;
-      color: #325B7A; }
+    #dashboard #dashboard-signup:hover {
+      background-color: #234056; }
+  #dashboard #dashboard-auth #dashboard-newpoll {
+    background-color: green;
+    color: white;
+    margin-right: 30px;
+    width: 10em;
+    font-weight: bold; }
+    #dashboard #dashboard-auth #dashboard-newpoll:hover {
+      background-color: #004d00; }
+  #dashboard #dashboard-auth #dashboard-mypolls {
+    background-color: #325B7A;
+    color: white;
+    width: 10em;
+    font-weight: bold; }
+    #dashboard #dashboard-auth #dashboard-mypolls:hover {
+      background-color: #234056; }
 
 #body {
   text-align: center; }
@@ -36,6 +51,40 @@ body {
     color: green; }
   #body #twitter-icon {
     color: #55ACEE; }
+  #body #body-signup, #body #body-login {
+    text-align: left; }
+    #body #body-signup label, #body #body-login label {
+      margin-top: 5px; }
+    #body #body-signup input, #body #body-login input {
+      margin-bottom: 20px;
+      width: 50%; }
+    #body #body-signup .btn, #body #body-login .btn {
+      margin-right: 50px; }
+    #body #body-signup #generic-signup, #body #body-signup #generic-login, #body #body-login #generic-signup, #body #body-login #generic-login {
+      background-color: green;
+      color: white; }
+      #body #body-signup #generic-signup:hover, #body #body-signup #generic-login:hover, #body #body-login #generic-signup:hover, #body #body-login #generic-login:hover {
+        background-color: #004d00; }
+    #body #body-signup #twitter-signup, #body #body-signup #twitter-login, #body #body-login #twitter-signup, #body #body-login #twitter-login {
+      background-color: #55ACEE;
+      color: white;
+      margin-right: 50px; }
+      #body #body-signup #twitter-signup i, #body #body-signup #twitter-login i, #body #body-login #twitter-signup i, #body #body-login #twitter-login i {
+        font-size: 1em; }
+      #body #body-signup #twitter-signup:hover, #body #body-signup #twitter-login:hover, #body #body-login #twitter-signup:hover, #body #body-login #twitter-login:hover {
+        background-color: #2795e9; }
+  #body #body-settings {
+    text-align: left; }
+    #body #body-settings label {
+      margin-top: 5px; }
+    #body #body-settings input {
+      margin-bottom: 20px;
+      width: 50%; }
+    #body #body-settings #settings-btn {
+      background-color: red;
+      color: white; }
+      #body #body-settings #settings-btn:hover {
+        background-color: #cc0000; }
 
 #footer {
   text-align: center; }
