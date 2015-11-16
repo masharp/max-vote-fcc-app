@@ -1,18 +1,59 @@
+$main-color: #A0785A;
+$accent-color: #325B7A;
+
 body {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 30px;
+  font-size: 15px;
 }
 #nav {
   margin-bottom: 0;
 
+  #settings-btn {
+    font-size: 1.2em;
+  }
+
 }
-#title {
-  background-color: red;
-  padding: 75px;
+#dashboard {
+  background-color: $main-color;
+  padding: 50px;
   text-align: center;
   color: white;
+  margin-bottom: 30px;
 
-  h3 {
+  h1 {
     font-size: 4em;
   }
+  p {
+    padding-bottom: 15px;
+    font-size: 1.2em;
+  }
+  button {
+    background-color: $accent-color;
+    width: 10em;
+    font-weight: bold;
+
+    &:hover {
+      background-color: white;
+      color: $accent-color;
+    }
+  }
+}
+#body {
+  text-align: center;
+
+  i {
+    font-size: 4em;
+  }
+  #chart-icon {
+    color: yellow;
+  }
+  #road-icon {
+    color: green;
+  }
+  #twitter-icon {
+    color: #55ACEE;
+  }
+}
+#footer {
+  text-align: center;
 }

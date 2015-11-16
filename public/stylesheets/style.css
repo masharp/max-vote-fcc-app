@@ -1,16 +1,43 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 30px; }
+  font-size: 15px; }
 
 #nav {
   margin-bottom: 0; }
+  #nav #settings-btn {
+    font-size: 1.2em; }
 
-#title {
-  background-color: red;
-  padding: 75px;
+#dashboard {
+  background-color: #A0785A;
+  padding: 50px;
   text-align: center;
-  color: white; }
-  #title h3 {
+  color: white;
+  margin-bottom: 30px; }
+  #dashboard h1 {
     font-size: 4em; }
+  #dashboard p {
+    padding-bottom: 15px;
+    font-size: 1.2em; }
+  #dashboard button {
+    background-color: #325B7A;
+    width: 10em;
+    font-weight: bold; }
+    #dashboard button:hover {
+      background-color: white;
+      color: #325B7A; }
+
+#body {
+  text-align: center; }
+  #body i {
+    font-size: 4em; }
+  #body #chart-icon {
+    color: yellow; }
+  #body #road-icon {
+    color: green; }
+  #body #twitter-icon {
+    color: #55ACEE; }
+
+#footer {
+  text-align: center; }
 
 /*# sourceMappingURL=style.css.map */
