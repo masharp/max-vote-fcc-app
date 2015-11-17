@@ -13,42 +13,50 @@
           $("#home-btn").parent().addClass("active");
           if(this.authUser) {
             this.view = 5;
+            window.history.pushState({view: 5}, null, "dashboard");
             break;
           } else {
             this.view = 0;
+            window.history.pushState({view: 0}, null, "home");
             break;
           }
         case 1:
           $(".active").removeClass("active");
           $("#signup-btn").parent().addClass("active");
           this.view = setView;
+          window.history.pushState({view: 1}, null, "signup");
           break;
         case 2:
           $(".active").removeClass("active");
-          $("#welcome-nav").parent().addClass("active");
+          $("#login-btn").parent().addClass("active");
           this.view = setView;
+          window.history.pushState({view: 2}, null, "login");
           this.authUser = true;
           break;
         case 3:
           $(".active").removeClass("active");
           $("#settings-btn").parent().addClass("active");
           this.view = setView;
+          window.history.pushState({view: 2}, null, "settings");
           break;
         case 4:
           $(".active").removeClass("active");
           $("#home-btn").parent().addClass("active");
           this.view = 0;
+          window.history.pushState({view: 4}, null, "home");
           this.authUser = false;
           break;
         case 5:
           $(".active").removeClass("active");
           $("#home-btn").parent().addClass("active");
           this.view = setView;
+          window.history.pushState({view: 5}, null, "dashboard");
           break;
         case 6:
           $(".active").removeClass("active");
           $("#home-btn").parent().addClass("active");
           this.view = setView;
+        window.history.pushState({view: 6}, null, "newpoll");
           break;
       }
     };

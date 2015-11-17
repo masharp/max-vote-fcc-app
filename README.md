@@ -1,6 +1,6 @@
 #MaxVote
 This web application is my recreation of https://votingapp.herokuapp.com/, while following
-the FreeCodeCamp curriculum.
+the FreeCodeCamp curriculum. It is a single-page AngularJS-based web application.
 
 ###Tools
   * AngularJS
@@ -17,11 +17,13 @@ the FreeCodeCamp curriculum.
 
 ###Nov.16, 2015
   * Finished Angular view control functionality
-  * Implemented markup and styling for each view
+  * Implemented markup and styling for each page (except polling)
+  * Messed around with window.history to manage page history
 
 ##To Do
   * Finish Angular page views
-  * Test page view functionality
+  * Research Angular $ngRoute
+  * Test page view functionality (url and browser history management)
   * Add markups for various views
   * Add database (MongoDB or PostgreSQL?)
   * Heroku
