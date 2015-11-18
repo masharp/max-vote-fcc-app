@@ -1,16 +1,17 @@
 extends layout
 
 block content
+  
   #main-ctrl(ng-controller="PageController")
     nav#nav.navbar.navbar-default.navbar-static-top
       div.container
           ul.nav.navbar-nav
             li
                 a.navbar-brand(href) MaxVote
-            li.active
+            li
                 a#home-btn(href ng-click="selectView(0)") Home
           ul.nav.navbar-nav.navbar-right
-            li
+            li.active
               a#signup-btn(href ng-click="selectView(1)" ng-show="!authUser") Sign Up
             li
               a#login-btn(href ng-click="selectView(2)" ng-show="!authUser") Log In
@@ -25,22 +26,20 @@ block content
         h1 MaxVote
         p Create custom polls with live results.
         div#dashboard-signup.btn(ng-show="isSelected(0)", ng-click="selectView(1)") Sign Up
-      
-    #body.container
-      #body-home(ng-show="isSelected(0)")
-        div.row
-          div.col-sm-4
-            i#chart-icon.fa.fa-area-chart
-            h3 Live Results
-            p Immediately see the results of your polls in a variety of easy to understand ways.
-          div.col-sm-4
-            i#road-icon.fa.fa-road
-            h3 Works Everywhere
-            p Your polls will not only work on desktops, but tablets and smartphones as well.
-          div.col-sm-4
-            i#twitter-icon.fa.fa-twitter
-            h3 Social Connection
-            p Our polls are easily integrated with social networking in order to quickly spread the word.
-        
-    #footer.navbar-fixed-bottom(ng-show="isSelected(0)")
-        p #[a(href="http://www.freecodecamp.com/masharp", target="_blank") Michael Sharp] for FreeCodeCamp
+              
+    #body-signup(ng-show="isSelected(1)")  
+      div.row
+        label Name
+        br
+        input#signup-name(type="text")
+      div.row
+        label Email
+        br
+        input#signup-email(type="email")
+      div.row
+        label Password
+        br
+        input#signup-pass(type="password")
+      div.row
+        div#generic-signup.btn Sign up
+        div#twitter-signup.btn #[i.fa.fa-twitter] Connect with Twitter

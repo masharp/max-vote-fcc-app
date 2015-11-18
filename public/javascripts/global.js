@@ -1,77 +1,66 @@
 (function() {
   var app = angular.module("votingApp", []);
 
-  app.controller("PageController", function() {
-    this.view = 0;
-    this.authUser = false;
-    this.username = "John";
+  app.controller("PageController", ["$scope", function($scope) {
+    $scope.view = 0;
+    $scope.authUser = false;
+    $scope.username = "John";
 
-    this.selectView = function(setView) {
+    $scope.selectView = function(setView) {
       switch(setView) {
         case 0:
-          $(".active").removeClass("active");
-          $("#home-btn").parent().addClass("active");
-          if(this.authUser) {
-            this.view = 5;
-            window.history.pushState({view: 5}, null, "dashboard");
+          if($scope.authUser) {
+            $scope.authUser = true;
+            window.location.href = "/dashboard";
+            $scope.view = 5;
             break;
           } else {
-            this.view = 0;
-            window.history.pushState({view: 0}, null, "home");
+            window.location.href = "/";
+            $scope.view = 0;
             break;
           }
         case 1:
-          $(".active").removeClass("active");
-          $("#signup-btn").parent().addClass("active");
-          this.view = setView;
-          window.history.pushState({view: 1}, null, "signup");
+          window.location.href = "/signup";
+          $scope.view = 1;
           break;
         case 2:
-          $(".active").removeClass("active");
-          $("#login-btn").parent().addClass("active");
-          this.view = setView;
-          window.history.pushState({view: 2}, null, "login");
-          this.authUser = true;
+          window.location.href = "/login";
+          $scope.authUser = true;
+          $scope.view = 2;
           break;
         case 3:
-          $(".active").removeClass("active");
-          $("#settings-btn").parent().addClass("active");
-          this.view = setView;
-          window.history.pushState({view: 2}, null, "settings");
+          window.location.href = "/settings";
+          $scope.view = 3;
           break;
         case 4:
-          $(".active").removeClass("active");
-          $("#home-btn").parent().addClass("active");
-          this.view = 0;
-          window.history.pushState({view: 4}, null, "home");
-          this.authUser = false;
+          window.location.href = "/";
+          $scope.authUser = false;
+          $scope.view = 0;
           break;
         case 5:
-          $(".active").removeClass("active");
-          $("#home-btn").parent().addClass("active");
-          this.view = setView;
-          window.history.pushState({view: 5}, null, "dashboard");
+          $scope.authUser = true;
+          window.location.href = "/dashboard";
+          $scope.view = 5;
           break;
         case 6:
-          $(".active").removeClass("active");
-          $("#home-btn").parent().addClass("active");
-          this.view = setView;
-        window.history.pushState({view: 6}, null, "newpoll");
+          $scope.authUser = true;
+          window.location.href = "/dashboard";
+          $scope.view = 5;
           break;
       }
     };
 
-    this.isSelected = function(checkView) {
-      return this.view === checkView;
+    $scope.isSelected = function(checkView) {
+      return $scope.view === checkView;
     };
-  });
+  }]);
 })();
 
 
 /*
   app.controller("StoreController", ["$http", function($http) {
-    this.products = gems;
-    var store = this;
+    $scope.products = gems;
+    var store = $scope;
     store.products = [];
 
     $http.get("/products.json").success(function(data)  {
@@ -79,22 +68,22 @@
     });
   }]);
   app.controller("PanelController", function() {
-    this.tab = 0;
+    $scope.tab = 0;
 
-    this.selectTab =  function(setTab) {
-      this.tab = setTab;
+    $scope.selectTab =  function(setTab) {
+      $scope.tab = setTab;
     };
 
-    this.isSelected = function(checkTab) {
-      return this.tab === checkTab;
+    $scope.isSelected = function(checkTab) {
+      return $scope.tab === checkTab;
     }
   });
   app.controller("ReviewController", function() {
-    this.review = {};
+    $scope.review = {};
 
-    this.addReview = function(product) {
-      product.reviews.push(this.review);
-      this.review = {};
+    $scope.addReview = function(product) {
+      product.reviews.push($scope.review);
+      $scope.review = {};
     }
   });
 */
