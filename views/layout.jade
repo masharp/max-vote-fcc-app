@@ -13,4 +13,24 @@ html(ng-app="votingApp")
     link(rel="stylesheet", href="/stylesheets/style.css")
     
   body
+    #main-ctrl
+      nav#nav.navbar.navbar-default.navbar-static-top
+        div.container
+            ul.nav.navbar-nav
+              li
+                  a.navbar-brand(href) MaxVote
+              li.active
+                  a#home-btn Home
+            ul.nav.navbar-nav.navbar-right
+              li
+                a#signup-btn Sign Up
+              li
+                a#login-btn Log In
+              li
+                a#welcome-nav Hello
+              li
+                a#settings-btn #[i.fa.fa-cog]
+              li
+                a#logout-btn Log Out
+    
     block content

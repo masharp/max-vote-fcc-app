@@ -25,8 +25,15 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Fixed Express routing
   * Included markup and styling for each file (page)
 
+##Nov. 18, 2015
+  * Modulated navbar for views
+  * Trimmed file architecture
+  * Documented and cleaned back-end code
+  * Added Angular controller skeletons for each view and a data factory
+
 ##To Do
-  * https://github.com/DaftMonk/generator-angular-fullstack
+  * Look into cookies (cookie-parser || cookies.js)
+  * Authentication (oAuth, local, twitter)
   * Manage mutli-page application state
   * Add database (MongoDB or PostgreSQL?)
   * Heroku

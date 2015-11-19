@@ -1,45 +1,27 @@
 extends layout
 
 block content
-  
-  #main-ctrl(ng-controller="PageController")
-    nav#nav.navbar.navbar-default.navbar-static-top
-      div.container
-          ul.nav.navbar-nav
-            li
-                a.navbar-brand(href) MaxVote
-            li
-                a#home-btn(href ng-click="selectView(0)") Home
-          ul.nav.navbar-nav.navbar-right
-            li.active
-              a#signup-btn(href ng-click="selectView(1)" ng-show="!authUser") Sign Up
-            li
-              a#login-btn(href ng-click="selectView(2)" ng-show="!authUser") Log In
-            li
-              a#welcome-nav(ng-show="authUser") Hello, {{username}}
-            li
-              a#settings-btn(href ng-click="selectView(3)" ng-show="authUser") #[i.fa.fa-cog]
-            li
-              a#logout-btn(href ng-click="selectView(4)" ng-show="authUser") Log Out
+  #signup-page(ng-controller="SignupController")
     #dashboard
-      #dashboard-home(ng-show="!authUser")
+      #dashboard-home
         h1 MaxVote
         p Create custom polls with live results.
-        div#dashboard-signup.btn(ng-show="isSelected(0)", ng-click="selectView(1)") Sign Up
-              
-    #body-signup(ng-show="isSelected(1)")  
-      div.row
-        label Name
-        br
-        input#signup-name(type="text")
-      div.row
-        label Email
-        br
-        input#signup-email(type="email")
-      div.row
-        label Password
-        br
-        input#signup-pass(type="password")
-      div.row
-        div#generic-signup.btn Sign up
-        div#twitter-signup.btn #[i.fa.fa-twitter] Connect with Twitter
+        div#dashboard-signup.btn Sign Up
+        
+    #body.container          
+      #body-signup 
+        div.row
+          label Name
+          br
+          input#signup-name
+        div.row
+          label Email
+          br
+          input#signup-email
+        div.row
+          label Password
+          br
+          input#signup-pass
+        div.row
+          div#generic-signup.btn Sign up
+          div#twitter-signup.btn #[i.fa.fa-twitter] Connect with Twitter

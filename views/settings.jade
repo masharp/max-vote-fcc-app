@@ -1,41 +1,23 @@
 extends layout
 
 block content
-  
-  div#main-ctrl(ng-controller="PageController")
-    nav#nav.navbar.navbar-default.navbar-static-top
-      div.container
-          ul.nav.navbar-nav
-            li
-                a.navbar-brand(href) MaxVote
-            li
-                a#home-btn(href ng-click="selectView(0)") Home
-          ul.nav.navbar-nav.navbar-right
-            li
-              a#signup-btn(href ng-click="selectView(1)" ng-show="!authUser") Sign Up
-            li
-              a#login-btn(href ng-click="selectView(2)" ng-show="!authUser") Log In
-            li
-              a#welcome-nav(ng-show="authUser") Hello, {{username}}
-            li.active
-              a#settings-btn(href ng-click="selectView(3)" ng-show="authUser") #[i.fa.fa-cog]
-            li
-              a#logout-btn(href ng-click="selectView(4)" ng-show="authUser") Log Out
-              #dashboard
-    #dashboard-auth(ng-show="authUser")
-      h1 Dashboard
-      p What would you like to do?
-      div#dashboard-newpoll.btn(ng-show="isSelected(5) || isSelected(6)" ng-click="selectView(6)") New Poll
-      div#dashboard-mypolls.btn(ng-show="isSelected(5) || isSelected(6)" ng-click="selectView(5)") My Polls
-
-    #body-settings(ng-show="isSelected(3)")
-      div.row
-        label Current Password
-        br
-        input#settings-current(type="password")
-      div.row
-        label New Password
-        br
-        input#settings-new(type="password")
-      div.row
-        div#settings-btn.btn Confirm
+  #settings-page(ng-controller="SettingsController")
+    #dashboard
+      #dashboard-auth
+        h1 Dashboard
+        p What would you like to do?
+        div#dashboard-newpoll.btn New Poll
+        div#dashboard-mypolls.btn My Polls
+    
+    #body.container
+      #body-settings
+        div.row
+          label Current Password
+          br
+          input#settings-current
+        div.row
+          label New Password
+          br
+          input#settings-new
+        div.row
+          div#settings-btn.btn Confirm

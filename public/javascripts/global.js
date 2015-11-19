@@ -1,10 +1,52 @@
 (function() {
   var app = angular.module("votingApp", []);
 
-  app.controller("PageController", ["$scope", function($scope) {
-    $scope.view = 0;
-    $scope.authUser = false;
-    $scope.username = "John";
+  /* Factory for view controllers */
+  app.factory("DataService", function() {
+    return {
+      data: {
+        view: 0,
+        authUser: false,
+        username: "John"
+      }
+    }
+  });
+
+  /* Home page controller */
+  app.controller("HomeController", ["$scope", "DataService", function($scope, DataService) {
+    $scope.data = DataService.data;
+
+  }]);
+
+  /* Signup page controller */
+  app.controller("SignupController", ["$scope", "DataService", function($scope, DataService) {
+    $scope.data = DataService.data;
+
+  }]);
+
+  /* Settings page controller */
+  app.controller("SettingsController", ["$scope", "DataService", function($scope, DataService) {
+    $scope.data = DataService.data;
+
+  }]);
+
+  /* Login page controller */
+  app.controller("LoginController", ["$scope", "DataService", function($scope, DataService) {
+    $scope.data = DataService.data;
+
+  }]);
+
+  /* Dashboard page controller */
+  app.controller("DashController", ["$scope", "DataService", function($scope, DataService) {
+    $scope.data = DataService.data;
+    
+  }]);
+})();
+
+
+/*
+
+-------------------------
 
     $scope.selectView = function(setView) {
       switch(setView) {
@@ -53,11 +95,7 @@
     $scope.isSelected = function(checkView) {
       return $scope.view === checkView;
     };
-  }]);
-})();
-
-
-/*
+    ---------------------------------------------------------
   app.controller("StoreController", ["$http", function($http) {
     $scope.products = gems;
     var store = $scope;

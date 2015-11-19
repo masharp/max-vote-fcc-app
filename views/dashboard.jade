@@ -1,34 +1,16 @@
 extends layout
 
 block content
-  
-  div#main-ctrl(ng-controller="PageController")
-    nav#nav.navbar.navbar-default.navbar-static-top
-      div.container
-          ul.nav.navbar-nav
-            li
-                a.navbar-brand(href) MaxVote
-            li.active
-                a#home-btn(href ng-click="selectView(0)") Home
-          ul.nav.navbar-nav.navbar-right
-            li
-              a#signup-btn(href ng-click="selectView(1)" ng-show="!authUser") Sign Up
-            li
-              a#login-btn(href ng-click="selectView(2)" ng-show="!authUser") Log In
-            li
-              a#welcome-nav(ng-show="authUser") Hello, {{username}}
-            li
-              a#settings-btn(href ng-click="selectView(3)" ng-show="authUser") #[i.fa.fa-cog]
-            li
-              a#logout-btn(href ng-click="selectView(4)" ng-show="authUser") Log Out
-      #dashboard
-        #dashboard-auth(ng-show="authUser")
+  #dashboard-page(ng-controller="DashController")
+    #dashboard
+        #dashboard-auth
           h1 Dashboard
           p What would you like to do?
-          div#dashboard-newpoll.btn(ng-show="isSelected(5) || isSelected(6)" ng-click="selectView(6)") New Poll
-          div#dashboard-mypolls.btn(ng-show="isSelected(5) || isSelected(6)" ng-click="selectView(5)") My Polls
+          div#dashboard-newpoll.btn New Poll
+          div#dashboard-mypolls.btn My Polls
           
-    #body-mypolls(ng-show="isSelected(5)")
-      p My Polls
-    #body-newpoll(ng-show="isSelected(6)")
-      p New Poll
+    #body.container
+      #body-mypolls
+        p My Polls
+      #body-newpoll
+        p New Poll
