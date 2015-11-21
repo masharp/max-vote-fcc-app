@@ -3,7 +3,6 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function(request, response, next) {
-  response.cookie(cookie_name, "cookie_value").send("cookie is set");
   response.render("home", { title: "MaxVote | A simple live-polling resource" });
 
 });

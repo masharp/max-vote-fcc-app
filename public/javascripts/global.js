@@ -1,45 +1,70 @@
 (function() {
-  var app = angular.module("votingApp", []);
 
-  /* Factory for view controllers */
-  app.factory("DataService", function() {
-    return {
-      data: {
-        view: 0,
-        authUser: false,
-        username: "John"
+  var app = angular.module("votingApp", ["ngCookies"]);
+
+  /* NavBar controller */
+  app.controller("NavController", ["$scope", "$cookies", function($scope, $cookies) {
+    $scope.cookie = $cookies.getObject("max-vote");
+    console.log($scope.cookie);
+
+    $scope.changePage = function(page) {
+
+      switch(page) {
+        case 0:
+          $cookie.
+          window.location.href = "/";
+          break;
+        case 1:
+          window.location.href = "/signup";
+          break;
+        case 2:
+          window.location.href = "/login";
+          break;
+        case 3:
+          window.location.href = "/settings";
+          break;
       }
     }
-  });
+  }]);
 
   /* Home page controller */
-  app.controller("HomeController", ["$scope", "DataService", function($scope, DataService) {
-    $scope.data = DataService.data;
+  app.controller("HomeController", ["$scope", "$cookies", function($scope, $cookies) {
+    $cookies.remove("max-vote");
+    $cookies.putObject("max-vote", "0");
+
+    $("#dashboard-signup").click(function() {
+      window.location.href = "/signup";
+    });
+
 
   }]);
 
   /* Signup page controller */
-  app.controller("SignupController", ["$scope", "DataService", function($scope, DataService) {
-    $scope.data = DataService.data;
-
+  app.controller("SignupController", ["$scope", "$cookies", function($scope, $cookies) {
+    $cookies.remove("max-vote");
+    $cookies.put("max-vote", "1");
   }]);
 
   /* Settings page controller */
-  app.controller("SettingsController", ["$scope", "DataService", function($scope, DataService) {
-    $scope.data = DataService.data;
+  app.controller("SettingsController", ["$scope", "$cookies", function($scope, $cookies) {
+    $cookies.put("max-vote", "1");
+
+    if(!$scope.data.authUser) { window.location.href = "/"; }
 
   }]);
 
   /* Login page controller */
-  app.controller("LoginController", ["$scope", "DataService", function($scope, DataService) {
-    $scope.data = DataService.data;
+  app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
+    $cookies.put("max-vote", "2");
 
   }]);
 
   /* Dashboard page controller */
-  app.controller("DashController", ["$scope", "DataService", function($scope, DataService) {
-    $scope.data = DataService.data;
-    
+  app.controller("DashController", ["$scope", "$cookies", function($scope, $cookies) {
+    $cookies.put("max-vote", "1");
+
+    if(!$scope.data.authUser) { window.location.href = "/"; }
+
   }]);
 })();
 

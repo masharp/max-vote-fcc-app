@@ -7,30 +7,31 @@ html(ng-app="votingApp")
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
     
     script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-cookies.js")
     script(src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js")
     script(src="/javascripts/global.js")
     
     link(rel="stylesheet", href="/stylesheets/style.css")
     
   body
-    #main-ctrl
+    #main-ctrl(ng-controller="NavController")
       nav#nav.navbar.navbar-default.navbar-static-top
         div.container
             ul.nav.navbar-nav
               li
-                  a.navbar-brand(href) MaxVote
-              li.active
-                  a#home-btn Home
+                  a.navbar-brand(href, ng-click="changePage(0)") MaxVote
+              li(ng-class="{active: page == 0}")
+                  a#home-btn(href, ng-click="changePage(0)") Home
             ul.nav.navbar-nav.navbar-right
+              li(ng-class="{active: page == 1}")
+                a#signup-btn(href, ng-show="!data.authUser", ng-click="changePage(1)") Sign Up
+              li(ng-class="{active: page == 2}")
+                a#login-btn(href, ng-show="!data.authUser", ng-click="changePage(2)") Log In
               li
-                a#signup-btn Sign Up
+                a#welcome-nav(ng-show="data.authUser") Hello {{data.username}}
+              li(ng-class="{active: page == 3}")
+                a#settings-btn(href, ng-show="data.authUser",ng-click="changePage(3)") #[i.fa.fa-cog]
               li
-                a#login-btn Log In
-              li
-                a#welcome-nav Hello
-              li
-                a#settings-btn #[i.fa.fa-cog]
-              li
-                a#logout-btn Log Out
+                a#logout-btn(href, ng-show="data.authUser") Log Out
     
     block content

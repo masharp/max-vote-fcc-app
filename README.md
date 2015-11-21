@@ -32,7 +32,7 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Added Angular controller skeletons for each view and a data factory
 
 ##To Do
-  * Look into cookies (cookie-parser || cookies.js)
+  * Finish figuring out ngCookies
   * Authentication (oAuth, local, twitter)
   * Manage mutli-page application state
   * Add database (MongoDB or PostgreSQL?)
