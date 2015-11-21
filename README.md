@@ -25,14 +25,20 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Fixed Express routing
   * Included markup and styling for each file (page)
 
-##Nov. 18, 2015
+###Nov. 18, 2015
   * Modulated navbar for views
   * Trimmed file architecture
   * Documented and cleaned back-end code
   * Added Angular controller skeletons for each view and a data factory
 
+###Nov. 21, 20015
+  * Implemented cookies for navbar
+  * Added jQuery functions to each view controller
+
 ##To Do
-  * Finish figuring out ngCookies
+  * Markup and angular controller for new polls and my polls
+  * Maybe trigger cookie / navbar by reading href?
+  * Password handling
   * Authentication (oAuth, local, twitter)
   * Manage mutli-page application state
   * Add database (MongoDB or PostgreSQL?)

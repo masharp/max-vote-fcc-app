@@ -20,18 +20,18 @@ html(ng-app="votingApp")
             ul.nav.navbar-nav
               li
                   a.navbar-brand(href, ng-click="changePage(0)") MaxVote
-              li(ng-class="{active: page == 0}")
+              li(ng-class="{active: cookie == 0 || cookie == 5}")
                   a#home-btn(href, ng-click="changePage(0)") Home
             ul.nav.navbar-nav.navbar-right
-              li(ng-class="{active: page == 1}")
+              li(ng-class="{active: cookie == 1}")
                 a#signup-btn(href, ng-show="!data.authUser", ng-click="changePage(1)") Sign Up
-              li(ng-class="{active: page == 2}")
+              li(ng-class="{active: cookie == 2}")
                 a#login-btn(href, ng-show="!data.authUser", ng-click="changePage(2)") Log In
               li
-                a#welcome-nav(ng-show="data.authUser") Hello {{data.username}}
-              li(ng-class="{active: page == 3}")
+                a#welcome-nav(ng-show="data.authUser") Hello, {{data.username}}
+              li(ng-class="{active: cookie == 3}")
                 a#settings-btn(href, ng-show="data.authUser",ng-click="changePage(3)") #[i.fa.fa-cog]
               li
-                a#logout-btn(href, ng-show="data.authUser") Log Out
+                a#logout-btn(href, ng-show="data.authUser", ng-click="changePage(4)") Log Out
     
     block content
