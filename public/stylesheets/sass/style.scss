@@ -15,7 +15,7 @@ body {
 }
 #dashboard {
   background-color: $main-color;
-  padding: 40px;
+  padding: 30px;
   text-align: center;
   color: white;
   margin-bottom: 20px;
@@ -61,7 +61,7 @@ body {
     }
   }
 }
-#body {
+#body, #body-dash {
   text-align: center;
 
   i {
@@ -123,6 +123,57 @@ body {
       color: white;
       &:hover {
         background-color: darken(red, 10);
+      }
+    }
+  }
+}
+#body-dash {
+  text-align: center;
+
+  ul {
+    padding-top: 10px;
+    display: inline-block;
+  }
+  a:hover {
+    cursor: pointer;
+  }
+  li {
+    margin-bottom: 10px;
+    margin-right: 10px;
+  }
+  #newpoll-inputs {
+    #poll-name {
+      margin-bottom: 5px;
+    }
+    #spec {
+      color: white;
+    }
+    i {
+      font-size: 1.5em;
+      padding-left: 5px;
+      color: red;
+      &:hover {
+        cursor: pointer;
+        font-size: 2em;
+      }
+    }
+  }
+  #newpoll-buttons {
+    padding-top: 10px;
+
+    #poll-more-btn {
+      background-color: gray;
+      color: white;
+      margin-right: 10px;
+      &:hover {
+        background-color: darken(gray, 10);
+      }
+    }
+    #poll-save-btn {
+      background-color: green;
+      color: white;
+      &:hover {
+        background-color: darken(green, 10);
       }
     }
   }

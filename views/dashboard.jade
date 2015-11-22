@@ -6,11 +6,25 @@ block content
         #dashboard-auth
           h1 Dashboard
           p What would you like to do?
-          div#dashboard-newpoll.btn New Poll
-          div#dashboard-mypolls.btn My Polls
+          div#dashboard-newpoll.btn(ng-click="selectPanel(0)") New Poll
+          div#dashboard-mypolls.btn(ng-click="selectPanel(1)") My Polls
           
-    #body.container
-      #body-mypolls
+    #body-dash.container
+      ul.nav.nav-pills
+        li(ng-class="{active: isSelected(0)}")
+          a(ng-click="selectPanel(0)") New Poll
+        li(ng-class="{active: isSelected(1)}")
+          a(ng-click="selectPanel(1)") My Polls
+      #body-newpoll.panel(ng-show="isSelected(0)")
+        #newpoll-inputs.row
+          input#poll-name(type="text", placeholder="Poll Name")
+          i#spec.fa.fa-times
+          br
+          input.poll-option(type="text", placeholder="Option")
+          i.fa.fa-times
+          br
+        #newpoll-buttons.row
+          div#poll-more-btn.btn(ng-click="addOption()") More Options
+          div#poll-save-btn.btn(ng-click="savePoll()") Save
+      #body-mypolls.panel(ng-show="isSelected(1)")
         p My Polls
-      #body-newpoll
-        p New Poll

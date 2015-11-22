@@ -31,16 +31,19 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Documented and cleaned back-end code
   * Added Angular controller skeletons for each view and a data factory
 
-###Nov. 21, 20015
+###Nov. 21, 2015
   * Implemented cookies for navbar
-  * Added jQuery functions to each view controller
+  * Added jQuery functions to each views' buttons
 
+###Nov. 22, 2015
+  * Finished dashboard markup and styling
+  * Added Angular and jQuery functionality for newpoll, looks nice
+  
 ##To Do
-  * Markup and angular controller for new polls and my polls
+  * Markup and angular controller for my polls
   * Maybe trigger cookie / navbar by reading href?
   * Password handling
   * Authentication (oAuth, local, twitter)
-  * Manage mutli-page application state
   * Add database (MongoDB or PostgreSQL?)
   * Heroku
   * Connect app to twitter api for login and tweets
