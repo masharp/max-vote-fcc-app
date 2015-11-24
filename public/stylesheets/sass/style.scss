@@ -177,6 +177,20 @@ body {
       }
     }
   }
+  #body-mypolls {
+    #mypolls-polls {
+      h3 {
+        font-size: 1.3em;
+      }
+      .option {
+        color: green;
+      }
+      .result {
+        text-align: right;
+        padding-left: 20px;
+      }
+    }
+  }
 }
 #footer {
   text-align: center;

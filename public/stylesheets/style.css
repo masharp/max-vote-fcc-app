@@ -120,6 +120,13 @@ body {
       color: white; }
       #body-dash #newpoll-buttons #poll-save-btn:hover {
         background-color: #004d00; }
+  #body-dash #body-mypolls #mypolls-polls h3 {
+    font-size: 1.3em; }
+  #body-dash #body-mypolls #mypolls-polls .option {
+    color: green; }
+  #body-dash #body-mypolls #mypolls-polls .result {
+    text-align: right;
+    padding-left: 20px; }
 
 #footer {
   text-align: center; }

@@ -1,7 +1,7 @@
 (function() {
   var app = angular.module("votingApp", ["ngCookies"]);
 
-  /* NavBar controller */
+  /*--------------- NavBar controller --------------------------- */
   app.controller("NavController", ["$scope", "$cookies", function($scope, $cookies) {
     /* Manage a browser cookie to control cross-page navbar highlighting */
     $scope.cookie = $cookies.getObject("max-vote");
@@ -13,7 +13,7 @@
       username: "John"
     };
 
-    /* Function to trigger click events on the navbar and call the page route */
+    /*Function to trigger click events on the navbar and call the page route*/
     $scope.changePage = function(page) {
 
       switch(page) {
@@ -47,7 +47,7 @@
     }
   }]);
 
-  /* Home page controller */
+  /* ------------------- Home page controller ------------------- */
   app.controller("HomeController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
 
@@ -57,7 +57,7 @@
     });
   }]);
 
-  /* Signup page controller */
+  /*---------------- Signup page controller ------------------------ */
   app.controller("SignupController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
 
@@ -76,7 +76,7 @@
 
   }]);
 
-  /* Settings page controller */
+  /* ----------- Settings page controller ---------------- */
   app.controller("SettingsController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
 
@@ -89,7 +89,7 @@
     });
   }]);
 
-  /* Login page controller */
+  /* ------------------ Login page controller ------------------ */
   app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
 
@@ -106,26 +106,44 @@
     });
   }]);
 
-  /* Dashboard page controller */
+  /* ------------------- Dashboard page controller ------------------*/
   app.controller("DashController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
     $scope.panel = 0;
+
+    $scope.savedPolls = [
+      {
+        name: "Hello?",
+        options: ["Yes", "No"],
+        results: [2, 3]
+      },
+      {
+        name: "Hello?",
+        options: ["Yes", "No"],
+        results: [4, 5]
+      },
+      {
+        name: "Hello?",
+        options: ["Yes", "No"],
+        results: [1, 0]
+      },
+    ];
 
     var newPoll = {
       name: "",
       options: []
     };
 
-    /*------------- Angular Panel Control Functions -------------------- */
+    /* Angular Panel Control Functions */
     $scope.selectPanel =  function(panel) {
       $scope.panel = panel;
     };
     $scope.isSelected = function(panel) {
       return $scope.panel === panel;
     };
-    /* ------------------------------------------------------------------ */
+    /* ------ */
 
-    /* --------------- Angular NewPoll Control Function ----------------- */
+    /* Angular NewPoll Control Function */
     $scope.addOption = function() {
       $scope.option++;
 
@@ -155,9 +173,9 @@
       //reset the options to remove the deleted option value
       newPoll.options = [];
     });
-    /* ---------------------------------------------------------------- */
+    /* ------ */
 
-    /* -------------- Angular MyPolls Control Functions ----------------- */
+    /* Angular MyPolls Control Functions */
 
   }]);
 })();
