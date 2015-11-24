@@ -179,15 +179,38 @@ body {
   }
   #body-mypolls {
     #mypolls-polls {
+        display: inline-block;
+        margin: 0 auto;
+
       h3 {
         font-size: 1.3em;
       }
-      .option {
-        color: green;
-      }
-      .result {
-        text-align: right;
-        padding-left: 20px;
+      .saved-poll {
+        max-width: 200%;
+        margin-bottom: 30px;
+
+        .option {
+          color: green;
+        }
+        .result {
+          text-align: center;
+          padding-left: 20px;
+        }
+        .poll-graph {
+          display: inline-block;
+        }
+        .btn {
+          background-color: red;
+          color: white;
+          margin-bottom: 10px;
+          &:hover {
+            background-color: darken(red, 10);
+          }
+        }
+        &:hover {
+          box-shadow: 5px 5px 10px #000;
+          cursor: pointer;
+        }
       }
     }
   }

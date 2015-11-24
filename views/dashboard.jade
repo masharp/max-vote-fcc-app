@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  script(src="https://cdn.plot.ly/plotly-latest.min.js")
+  
   #dashboard-page(ng-controller="DashController")
     #dashboard
         #dashboard-auth
@@ -27,10 +29,16 @@ block content
           div#poll-more-btn.btn(ng-click="addOption()") More Options
           div#poll-save-btn.btn(ng-click="savePoll()") Save
       #body-mypolls.panel(ng-show="isSelected(1)")
-        #mypolls-polls(ng-repeat="poll in savedPolls")
-          div.row.poll
+        #mypolls-polls
+          div.row.saved-poll(ng-repeat="poll in savedPolls", ng-click="selectPoll($index)")
             h3 Poll: {{poll.name}}
             div.row(ng-repeat="option in poll.options")
               label.option {{option}} 
               label.result {{poll.results[$index]}}
               br
+            div.row(ng-show="pollSelected($index)")
+              div.poll-graph(ng-attr-id="{{'poll-' + $index}}")
+              div.poll-remove-btn.btn(type="button") Remove
+      #footer.navbar-fixed-bottom
+          p Graphs powered by #[a(href="https://www.plot.ly", target="_blank") Plotly] 
+              

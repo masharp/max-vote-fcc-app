@@ -110,10 +110,11 @@
   app.controller("DashController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
     $scope.panel = 0;
+    $scope.poll = -1;
 
     $scope.savedPolls = [
       {
-        name: "Hello?",
+        name: "Helloasdasdasdasdasdadasdadasssssssssssssssssssssssssssssssssdadasdadsada?",
         options: ["Yes", "No"],
         results: [2, 3]
       },
@@ -164,7 +165,7 @@
       newPoll.name = "";
     };
 
-    /* jQuery Event Delegation for dynamically adding the 'i' element selector */
+    /* jQuery Event Delegation for dynamically removing element associated with the 'i' element selector */
     $(document).on("click", "i", function(event) {
       $(this).prev().remove();
       $(this).next().remove(); //removes the leftover whitespace
@@ -176,6 +177,40 @@
     /* ------ */
 
     /* Angular MyPolls Control Functions */
+    $scope.selectPoll = function(poll) {
+      var currentPoll = $scope.savedPolls[poll]; //capture the current poll
+
+      /* Assign Plotly chart attributes */
+      var chartData = [{
+        values: currentPoll.results,
+        labels: currentPoll.options,
+        type: "pie"
+      }];
+
+      /* Assign Plotly chart styling */
+      var chartLayout = {
+        height: 300,
+        width: 300
+      };
+
+      /* Instantiate a new chart on the given DOM element */
+      Plotly.newPlot("poll-" + poll, chartData, chartLayout);
+
+
+      $scope.poll =  poll; // display the poll via Angular
+    }
+
+    $scope.pollSelected = function(poll) {
+      return $scope.poll === poll;
+    }
+    
+    /* jQuery Event Delegation for dynamically removing a poll and updating the UI */
+    $(document).on("click", ".poll-remove-btn", function(event) {
+      $(this).parent().parent().remove();
+      $(this).next().remove();
+
+      console.log("boo");
+    });
 
   }]);
 })();

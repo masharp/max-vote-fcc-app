@@ -38,9 +38,12 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
 ###Nov. 22, 2015
   * Finished dashboard markup and styling
   * Added Angular and jQuery functionality for newpoll, looks nice
-  
+
+###Nov.23, 2015
+  * Finished dashboard view functionality, including saved polls
+  * Used Plotly.js for poll pie charts - not fan of forced plotly toolbar, but I get it
+
 ##To Do
-  * Markup and angular controller for my polls
   * Maybe trigger cookie / navbar by reading href?
   * Password handling
   * Authentication (oAuth, local, twitter)
