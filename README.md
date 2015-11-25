@@ -43,9 +43,12 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Finished dashboard view functionality, including saved polls
   * Used Plotly.js for poll pie charts - not fan of forced plotly toolbar, but I get it
 
+###Nov.23, 2015
+  * Pivoted charting library to Google Charts. I decided I didn't like the plotly toolbar
+  * Tested express-sessions, ran into trouble
+
 ##To Do
-  * Maybe trigger cookie / navbar by reading href?
-  * Password handling
+  * express-sessions
   * Authentication (oAuth, local, twitter)
   * Add database (MongoDB or PostgreSQL?)
   * Heroku

@@ -124,9 +124,11 @@ body {
     display: inline-block;
     margin: 0 auto; }
     #body-dash #body-mypolls #mypolls-polls h3 {
-      font-size: 1.3em; }
+      font-size: 1.3em;
+      padding-left: 10px;
+      padding-right: 10px; }
     #body-dash #body-mypolls #mypolls-polls .saved-poll {
-      max-width: 200%;
+      max-width: 500px;
       margin-bottom: 30px; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .option {
         color: green; }
@@ -134,13 +136,25 @@ body {
         text-align: center;
         padding-left: 20px; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .poll-graph {
-        display: inline-block; }
-      #body-dash #body-mypolls #mypolls-polls .saved-poll .btn {
+        display: inline-block;
+        width: 250px; }
+      #body-dash #body-mypolls #mypolls-polls .saved-poll #poll-remove-btn {
         background-color: red;
         color: white;
+        padding-right: 10px;
         margin-bottom: 10px; }
-        #body-dash #body-mypolls #mypolls-polls .saved-poll .btn:hover {
+        #body-dash #body-mypolls #mypolls-polls .saved-poll #poll-remove-btn:hover {
           background-color: #cc0000; }
+      #body-dash #body-mypolls #mypolls-polls .saved-poll #twitter-share {
+        background-color: #55ACEE;
+        color: white;
+        padding-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px; }
+        #body-dash #body-mypolls #mypolls-polls .saved-poll #twitter-share i {
+          font-size: 1.2em; }
+        #body-dash #body-mypolls #mypolls-polls .saved-poll #twitter-share:hover {
+          background-color: #2795e9; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll:hover {
         box-shadow: 5px 5px 10px #000;
         cursor: pointer; }

@@ -184,9 +184,11 @@ body {
 
       h3 {
         font-size: 1.3em;
+        padding-left: 10px;
+        padding-right: 10px;
       }
       .saved-poll {
-        max-width: 200%;
+        max-width: 500px;
         margin-bottom: 30px;
 
         .option {
@@ -198,13 +200,28 @@ body {
         }
         .poll-graph {
           display: inline-block;
+          width: 250px;
         }
-        .btn {
+        #poll-remove-btn {
           background-color: red;
           color: white;
+          padding-right: 10px;
           margin-bottom: 10px;
           &:hover {
             background-color: darken(red, 10);
+          }
+        }
+        #twitter-share {
+          background-color: #55ACEE;
+          color: white;
+          padding-left: 10px;
+          margin-right: 10px;
+          margin-bottom: 10px;
+          i {
+            font-size: 1.2em;
+          }
+          &:hover {
+            background-color: darken(#55ACEE, 10);
           }
         }
         &:hover {

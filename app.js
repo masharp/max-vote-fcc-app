@@ -8,13 +8,23 @@ var path = require("path");
 var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
+var parseUrl = require("parseurl");
 var bodyParser = require("body-parser");
+var session = require("express-session");
 
 /* HTTP page routes */
 var routes = require("./routes/routes");
 
 /* Express Application */
 var app = express();
+
+/*Express-Session session setup */
+express().use(session({
+  name: "max-vote0.0.0",
+  secret: "m-l-h-93",
+  resave: false,
+  saveUninitialized: false
+}));
 
 /* View Engine setup */
 app.set("views", path.join(__dirname, "views"));

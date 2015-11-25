@@ -5,11 +5,13 @@
   app.controller("NavController", ["$scope", "$cookies", function($scope, $cookies) {
     /* Manage a browser cookie to control cross-page navbar highlighting */
     $scope.cookie = $cookies.getObject("max-vote");
+    var tCookie = $cookies.getObject("max-vote0.0.1");
+    console.log(tCookie);
     if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
 
     /* Temp Test Object */
     $scope.data = {
-      authUser: true,
+      authUser: false,
       username: "John"
     };
 
@@ -108,13 +110,14 @@
 
   /* ------------------- Dashboard page controller ------------------*/
   app.controller("DashController", ["$scope", "$cookies", function($scope, $cookies) {
+
     $cookies.remove("max-vote");
     $scope.panel = 0;
     $scope.poll = -1;
 
     $scope.savedPolls = [
       {
-        name: "Helloasdasdasdasdasdadasdadasssssssssssssssssssssssssssssssssdadasdadsada?",
+        name: "What is the greatest threat to America?",
         options: ["Yes", "No"],
         results: [2, 3]
       },
@@ -178,34 +181,37 @@
 
     /* Angular MyPolls Control Functions */
     $scope.selectPoll = function(poll) {
-      var currentPoll = $scope.savedPolls[poll]; //capture the current poll
+      google.load("visualization", "1", {"packages":["corechart"], "callback": drawChart});
 
-      /* Assign Plotly chart attributes */
-      var chartData = [{
-        values: currentPoll.results,
-        labels: currentPoll.options,
-        type: "pie"
-      }];
+      var currentPoll = $scope.savedPolls[poll];
+      var pollData = [["Options", "Results"]];
 
-      /* Assign Plotly chart styling */
-      var chartLayout = {
-        height: 300,
-        width: 300
+      for(var i = 0; i < currentPoll.options.length; i++) {
+        pollData.push([currentPoll.options[i], currentPoll.results[i]]);
+      };
+      console.log(pollData);
+
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var chartData = google.visualization.arrayToDataTable(pollData);
+
+        var chart = new google.visualization.PieChart(document.getElementById("poll-" + poll));
+        chart.draw(chartData);
       };
 
-      /* Instantiate a new chart on the given DOM element */
-      Plotly.newPlot("poll-" + poll, chartData, chartLayout);
-
-
       $scope.poll =  poll; // display the poll via Angular
-    }
+    };
 
     $scope.pollSelected = function(poll) {
       return $scope.poll === poll;
-    }
-    
+    };
+    $scope.sharePoll = function(poll) {
+
+    };
+
     /* jQuery Event Delegation for dynamically removing a poll and updating the UI */
-    $(document).on("click", ".poll-remove-btn", function(event) {
+    $(document).on("click", "#poll-remove-btn", function(event) {
       $(this).parent().parent().remove();
       $(this).next().remove();
 
