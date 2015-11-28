@@ -8,6 +8,38 @@ var parseUrl = require("parseurl");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 
+/* MongoDB setup */
+var mongo = require("mongodb").MongoClient;
+var url = "mongodb://localhost:27017/max-vote";
+var users, polls;
+
+mongo.connect(url, function(error, database) {
+  if(error) {
+    console.log("Unable to connect. Error: " + error);
+  } else {
+    console.log("Connnection to: " + url + " complete!");
+    var userCollection = database.collection("users");
+    var pollsCollection = database.collection("polls");
+
+    users = userCollection.find().toArray(function(error, documents) {
+      if(error) {
+        console.log("Error in users. " + error);
+      } else {
+        return documents;
+      }
+    });
+
+    polls = pollsCollection.find().toArray(function(error, documents) {
+      if(error) {
+        console.log("Error in polls. " + error);
+      } else {
+        return documents;
+      }
+    });
+
+    database.close();
+  }
+});
 /* Express Application */
 var app = express();
 
@@ -47,17 +79,28 @@ router.get("/signup", function(request, response, next) {
 
 /* GET login page. */
 router.get("/login", function(request, response, next) {
-  response.render("login", { title: "MaxVote | Log in"});
+  response.render("login", {
+    title: "MaxVote | Log in"
+  });
 });
 
 /* GET dashboard page. */
 router.get("/dashboard", function(request, response, next) {
-  response.render("dashboard", { title: "MaxVote | Dashboard"});
+  response.render("dashboard", {
+    title: "MaxVote | Dashboard"
+  });
 });
 
 /* GET settings page. */
 router.get("/settings", function(request, response, next) {
-  response.render("settings", { title: "MaxVote | Settings"});
+  response.render("settings", {
+    title: "MaxVote | Settings"
+  });
+});
+
+/* Dashboard GET data */
+router.get("dashboard/data", function(request, response, next) {
+  response.json(polls);
 });
 
 /* HTTP page routing */
@@ -66,6 +109,7 @@ app.use("/signup", router);
 app.use("/login", router);
 app.use("/settings", router);
 app.use("/dashboard", router);
+app.use("/dashboard/data", router);
 
 /* Catch 404 error and forward to error handler */
 app.use(function(request, response, next) {
@@ -97,5 +141,7 @@ app.use(function(error, request, response, next) {
     error: {}
   });
 });
+
+/* MongoDB Functionality */
 
 module.exports = app;

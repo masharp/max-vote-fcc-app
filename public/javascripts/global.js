@@ -109,29 +109,15 @@
   }]);
 
   /* ------------------- Dashboard page controller ------------------*/
-  app.controller("DashController", ["$scope", "$cookies", function($scope, $cookies) {
+  app.controller("DashController", ["$scope", "$cookies, $http", function($scope, $cookies, $http) {
 
     $cookies.remove("max-vote");
     $scope.panel = 0;
     $scope.poll = -1;
 
-    $scope.savedPolls = [
-      {
-        name: "What is the greatest threat to America?",
-        options: ["Yes", "No"],
-        results: [2, 3]
-      },
-      {
-        name: "Hello?",
-        options: ["Yes", "No"],
-        results: [4, 5]
-      },
-      {
-        name: "Hello?",
-        options: ["Yes", "No"],
-        results: [1, 0]
-      },
-    ];
+    $http.get("dashboard/data").success(function(data) {
+      $scope.savedPolls = data;
+    });
 
     var newPoll = {
       name: "",
