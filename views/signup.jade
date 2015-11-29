@@ -13,14 +13,20 @@ block content
           label Name
           br
           input#signup-name(type="input")
+          br
+          label#name-fail.fail-label Please input a name.
         div.row
           label Email
           br
           input#signup-email(type="email")
+          br
+          label#email-fail.fail-label Please input an email (jo@joey.net).
         div.row
           label Password
           br
           input#signup-pass(type="password")
+          br
+          label#password-fail.fail-label Please input a password that is at least 5 characters long.
         div.row
-          div#generic-signup.btn Sign up
-          div#twitter-signup.btn #[i.fa.fa-twitter] Connect with Twitter
+          div#generic-signup.btn(ng-click="signupGeneric()") Sign up
+          div#twitter-signup.btn(ng-click="signupTwitter()") #[i.fa.fa-twitter] Connect with Twitter

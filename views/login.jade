@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  #login-page(ng-controller="LoginController")  
+  #login-page(ng-controller="LoginController" ng-init="users=#{JSON.stringify(userData)}")  
     #dashboard
       #dashboard-home
         h1 MaxVote
@@ -12,11 +12,13 @@ block content
         div.row
           label Email
           br
-          input#login-email
+          input#login-email(type="email")
         div.row
           label Password
           br
-          input#login-pass
+          input#login-pass(type="password")
         div.row
-          div#generic-login.btn Log in
-          div#twitter-login.btn #[i.fa.fa-twitter] Sign in with Twitter
+          label#login-fail.fail-label Login Failed. Please try again.
+        div.row
+          div#generic-login.btn(ng-click="authenticateUserGeneric()") Log in
+          div#twitter-login.btn(ng-click="authenticateUserTwitter()") #[i.fa.fa-twitter] Sign in with Twitter

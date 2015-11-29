@@ -53,10 +53,12 @@ body {
     color: #55ACEE; }
   #body #body-signup, #body #body-login, #body-dash #body-signup, #body-dash #body-login {
     text-align: left; }
+    #body #body-signup .fail-label, #body #body-login .fail-label, #body-dash #body-signup .fail-label, #body-dash #body-login .fail-label {
+      color: red; }
     #body #body-signup label, #body #body-login label, #body-dash #body-signup label, #body-dash #body-login label {
       margin-top: 5px; }
     #body #body-signup input, #body #body-login input, #body-dash #body-signup input, #body-dash #body-login input {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       width: 50%; }
     #body #body-signup .btn, #body #body-login .btn, #body-dash #body-signup .btn, #body-dash #body-login .btn {
       margin-right: 50px; }

@@ -47,10 +47,16 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Pivoted charting library to Google Charts. I decided I didn't like the plotly toolbar
   * Tested express-sessions, ran into trouble
 
+###Nov. 29, 2015
+  * Implemented mongoDB GET functionality for user and poll data use in the client-side
+  * Formatted database data into a JSON template
+  * Server-side presented to the client via AngularJS ngInit in the markup
+  * Added form validation for signup and login views
+  * Cleaned up some code and added some documentation
+
 ##To Do
-  * mongodb sockets in use?
   * express-sessions sessions store
   * Authentication (oAuth, local, twitter)
-  * Add database (MongoDB or PostgreSQL?)
-  * Heroku
   * Connect app to twitter api for login and tweets
+  * Allow a non-authenticated user to view and vote on polls (via twitter or direct link?)
+  * Heroku

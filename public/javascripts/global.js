@@ -1,3 +1,25 @@
+/* Max-Vote Web Application
+  - This is an application that allows authenticated users to store polls and allow friends to vote.
+    The authenticated user can share the poll via Twitter or a direct link. The authenticated user then
+    can see live results as their friends vote. The results are displayed numerically and in a graph.
+
+    JSON Structure
+        POLL = {
+          _id: id,
+          user: authenticateduser,
+          name: pollname
+          options: [],
+          results: []
+        }
+        USER = {
+          _id: id,
+          name: username,
+          email: userEmail,
+          password: userPassword
+        }
+*/
+
+
 (function() {
   var app = angular.module("votingApp", ["ngCookies"]);
 
@@ -62,20 +84,43 @@
   /*---------------- Signup page controller ------------------------ */
   app.controller("SignupController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
+    $(".fail-label").hide();
 
-    var userObj = {
+    var newUserObj = {
       name: function() { return $("#signup-name").val(); },
       email: function() { return $("#signup-email").val(); },
       password: function() { return $("#signup-pass").val(); }
-    }
+    };
 
-    $("#generic-signup").click(function() {
-      console.log("generic clicked");
-    });
-    $("#twitter-signup").click(function() {
-      console.log("twitter clicked");
+    $("input").click(function() {
+      $(".fail-label").hide();
     });
 
+    $scope.signupGeneric = function() {
+      var tempName = newUserObj.name();
+      var tempEmail = newUserObj.email();
+      var tempPassword = newUserObj.password();
+
+      console.log(newUserObj.name() + " " + newUserObj.email() + " " + newUserObj.password());
+
+      if(!tempName) {
+        $("#name-fail").show();
+      } if((!tempEmail || !validateEmailAddress(tempEmail)) && tempEmail != "admin@max-vote") {
+        $("#email-fail").show();
+      } if(tempPassword.length < 5) {
+        $("#password-fail").show();
+      }
+
+      
+    };
+    $scope.signupTwitter = function() {
+      console.log("Signing up with Twitter...");
+    };
+
+    function validateEmailAddress(email) {
+      var regx = /\S+@\S+\.\S+/;
+      return regx.test(email);
+    };
   }]);
 
   /* ----------- Settings page controller ---------------- */
@@ -94,18 +139,33 @@
   /* ------------------ Login page controller ------------------ */
   app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
+    $("#login-fail").hide();
+
+    $("input").click(function() {
+     $("#login-fail").hide();
+    });
 
     var userLogin = {
       email: function() { return $("#login-email").val(); },
       password: function() { return $("#login-pass").val(); }
     }
 
-    $("#generic-login").click(function() {
-      console.log("generic clicked");
-    });
-    $("#twitter-login").click(function() {
-      console.log("twitter clicked");
-    });
+    $scope.authenticateUserGeneric = function() {
+      var userEmail = userLogin.email();
+      var userPassword = userLogin.password();
+      console.log(userEmail + " " + userPassword);
+
+     $scope.users.forEach(function(user) {
+        if(userEmail === user.email && userPassword === user.password) {
+          window.location.href = "/dashboard";
+        } else {
+          $("#login-fail").show();
+        }
+      });
+    }
+    $scope.authenticateUserTwitter = function() {
+      console.log("Twitter Authenticating...");
+    }
   }]);
 
   /* ------------------- Dashboard page controller ------------------*/

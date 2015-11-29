@@ -5,7 +5,7 @@
  */
 
 /* Module Dependencies */
-var app = require("../app");
+var app = require("../server");
 var debug = require("debug")("max-vote:server");
 var http = require("http");
 

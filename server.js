@@ -1,3 +1,9 @@
+/* Max-Vote Application Server
+  - Contains all of the back-end server and database functionality to power the Max-Vote app.
+    This module is exported to the bin/www file, which handles server initialization
+
+*/
+
 /* Module Dependencies */
 var express = require("express");
 var path = require("path");
@@ -81,7 +87,7 @@ router.get("/login", function(request, response, next) {
             db.close();
             response.render("login", {
               title: "MaxVote | Log in",
-              users: userData
+              userData: userData
             });
           }
           userData.push(item);
@@ -170,7 +176,5 @@ app.use(function(error, request, response, next) {
     error: {}
   });
 });
-
-/* MongoDB Functionality */
 
 module.exports = app;

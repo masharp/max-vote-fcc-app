@@ -79,11 +79,14 @@ body {
   #body-signup, #body-login {
     text-align: left;
 
+    .fail-label {
+      color: red;
+    }
     label {
       margin-top: 5px;
     }
     input {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       width: 50%;
     }
     .btn {
