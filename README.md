@@ -48,7 +48,8 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Tested express-sessions, ran into trouble
 
 ##To Do
-  * express-sessions
+  * mongodb sockets in use?
+  * express-sessions sessions store
   * Authentication (oAuth, local, twitter)
   * Add database (MongoDB or PostgreSQL?)
   * Heroku

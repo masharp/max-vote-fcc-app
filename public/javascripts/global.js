@@ -6,7 +6,7 @@
     /* Manage a browser cookie to control cross-page navbar highlighting */
     $scope.cookie = $cookies.getObject("max-vote");
     var tCookie = $cookies.getObject("max-vote0.0.1");
-    console.log(tCookie);
+    console.log("Session Cookie: " + tCookie);
     if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
 
     /* Temp Test Object */
@@ -109,15 +109,10 @@
   }]);
 
   /* ------------------- Dashboard page controller ------------------*/
-  app.controller("DashController", ["$scope", "$cookies, $http", function($scope, $cookies, $http) {
-
+  app.controller("DashController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
     $scope.panel = 0;
-    $scope.poll = -1;
-
-    $http.get("dashboard/data").success(function(data) {
-      $scope.savedPolls = data;
-    });
+    $scope.selectedPoll = -1;
 
     var newPoll = {
       name: "",
@@ -169,15 +164,15 @@
     $scope.selectPoll = function(poll) {
       google.load("visualization", "1", {"packages":["corechart"], "callback": drawChart});
 
-      var currentPoll = $scope.savedPolls[poll];
-      var pollData = [["Options", "Results"]];
+      var currentPoll = $scope.savedPolls[poll]; //capture the current poll object from Angular scope
+      var pollData = [["Options", "Results"]]; //begin with the chart titling
 
+      //transfer poll data from capture array to full chart array (including chart titling)
       for(var i = 0; i < currentPoll.options.length; i++) {
         pollData.push([currentPoll.options[i], currentPoll.results[i]]);
       };
-      console.log(pollData);
 
-      google.setOnLoadCallback(drawChart);
+      console.log(pollData);
 
       function drawChart() {
         var chartData = google.visualization.arrayToDataTable(pollData);
@@ -186,11 +181,11 @@
         chart.draw(chartData);
       };
 
-      $scope.poll =  poll; // display the poll via Angular
+      $scope.selectedPoll =  poll; // display the poll via Angular
     };
 
     $scope.pollSelected = function(poll) {
-      return $scope.poll === poll;
+      return $scope.selectedPoll === poll;
     };
     $scope.sharePoll = function(poll) {
 

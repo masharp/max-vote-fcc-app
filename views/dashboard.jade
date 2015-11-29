@@ -3,7 +3,7 @@ extends layout
 block content
   script(type="text/javascript" src="https://www.google.com/jsapi")
 
-  #dashboard-page(ng-controller="DashController")
+  #dashboard-page(ng-controller="DashController", ng-init="savedPolls=#{JSON.stringify(pollData)}")
     #dashboard
         #dashboard-auth
           h1 Dashboard
@@ -30,7 +30,7 @@ block content
           div#poll-save-btn.btn(ng-click="savePoll()") Save
       #body-mypolls.panel(ng-show="isSelected(1)")
         #mypolls-polls
-          div.row.saved-poll(ng-repeat="poll in savedPolls", ng-click="selectPoll($index)")
+          div.row.saved-poll.container-fluid(ng-repeat="poll in savedPolls track by $index", ng-click="selectPoll($index)")
             h3 {{poll.name}}
             div.row(ng-repeat="option in poll.options")
               label.option {{option}} 

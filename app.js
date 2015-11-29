@@ -10,36 +10,21 @@ var session = require("express-session");
 
 /* MongoDB setup */
 var mongo = require("mongodb").MongoClient;
+var database = require("mongodb").Db;
+var server = require("mongodb").Server;
 var url = "mongodb://localhost:27017/max-vote";
-var users, polls;
-
+var db = new database("max-vote", new server("localhost", 27017));
+/*
 mongo.connect(url, function(error, database) {
   if(error) {
     console.log("Unable to connect. Error: " + error);
   } else {
     console.log("Connnection to: " + url + " complete!");
-    var userCollection = database.collection("users");
-    var pollsCollection = database.collection("polls");
-
-    users = userCollection.find().toArray(function(error, documents) {
-      if(error) {
-        console.log("Error in users. " + error);
-      } else {
-        return documents;
-      }
-    });
-
-    polls = pollsCollection.find().toArray(function(error, documents) {
-      if(error) {
-        console.log("Error in polls. " + error);
-      } else {
-        return documents;
-      }
-    });
-
-    database.close();
+    db = database;
   }
 });
+*/
+
 /* Express Application */
 var app = express();
 
@@ -79,15 +64,59 @@ router.get("/signup", function(request, response, next) {
 
 /* GET login page. */
 router.get("/login", function(request, response, next) {
-  response.render("login", {
-    title: "MaxVote | Log in"
-  });
+
+  db.open(function(error, db) {
+    if(error) {
+      console.log("Error opening db: " + error);
+    } else {
+      console.log("Database opened.");
+    }
+    db.collection("users", function(error, collection) {
+      var userData = [];
+
+      collection.find({}, function(error, documents) {
+        documents.each(function(error, item) {
+          if(error || !item) {
+            console.log("Database closed.");
+            db.close();
+            response.render("login", {
+              title: "MaxVote | Log in",
+              users: userData
+            });
+          }
+          userData.push(item);
+        });
+      });
+    });
+  })
 });
 
 /* GET dashboard page. */
 router.get("/dashboard", function(request, response, next) {
-  response.render("dashboard", {
-    title: "MaxVote | Dashboard"
+  db.open(function(error, db) {
+    if(error) {
+      console.log("Error opening db: "  + error);
+    } else {
+      console.log("Database opened.");
+    }
+
+    db.collection("polls", function(error, collection) {
+      var pollData = [];
+
+      collection.find({}, function(error, documents) {
+        documents.each(function(error, item) {
+          if(error || !item) {
+            console.log("Database closed.")
+            db.close();
+            response.render("dashboard", {
+              title: "MaxVote | Dashboard",
+              pollData: pollData
+            });
+          }
+          pollData.push(item);
+        });
+      });
+    });
   });
 });
 
@@ -99,8 +128,8 @@ router.get("/settings", function(request, response, next) {
 });
 
 /* Dashboard GET data */
-router.get("dashboard/data", function(request, response, next) {
-  response.json(polls);
+router.get("/dashboard/data", function(request, response, next) {
+
 });
 
 /* HTTP page routing */
