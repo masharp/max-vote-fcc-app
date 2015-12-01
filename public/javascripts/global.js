@@ -6,7 +6,7 @@
     JSON Structure
         POLL = {
           _id: id,
-          user: authenticateduser,
+          user: user_id,
           name: pollname
           options: [],
           results: []
@@ -82,41 +82,48 @@
   }]);
 
   /*---------------- Signup page controller ------------------------ */
-  app.controller("SignupController", ["$scope", "$cookies", function($scope, $cookies) {
+  app.controller("SignupController", ["$scope", "$cookies", "$http", function($scope, $cookies, $http) {
     $cookies.remove("max-vote");
     $(".fail-label").hide();
-
-    var newUserObj = {
-      name: function() { return $("#signup-name").val(); },
-      email: function() { return $("#signup-email").val(); },
-      password: function() { return $("#signup-pass").val(); }
-    };
 
     $("input").click(function() {
       $(".fail-label").hide();
     });
 
     $scope.signupGeneric = function() {
-      var tempName = newUserObj.name();
-      var tempEmail = newUserObj.email();
-      var tempPassword = newUserObj.password();
-
-      console.log(newUserObj.name() + " " + newUserObj.email() + " " + newUserObj.password());
-
-      if(!tempName) {
-        $("#name-fail").show();
-      } if((!tempEmail || !validateEmailAddress(tempEmail)) && tempEmail != "admin@max-vote") {
-        $("#email-fail").show();
-      } if(tempPassword.length < 5) {
-        $("#password-fail").show();
+      var newUser = {
+        name: $("#signup-name").val(),
+        email: $("#signup-email").val(),
+        password: $("#signup-pass").val()
       }
+      var wait = false;
 
-      
+      //form validation gateways and then an $http post to save new user
+      if(!newUser.name) {
+        $("#name-fail").show();
+        wait = true;
+      } if(!newUser.email || !validateEmailAddress(newUser.email)) {
+        $("#email-fail").show();
+        wait = true;
+      } if(newUser.password.length < 5) {
+        $("#password-fail").show();
+        wait = true;
+      } if(!wait) {
+        $http.post("/signup/new", newUser)
+          .success(function(data) {
+            console.log("Signup Successful " + data);
+          })
+          .error(function(data) {
+            console.log("Signup Failed " + data);
+          });
+      }
     };
+
     $scope.signupTwitter = function() {
       console.log("Signing up with Twitter...");
     };
 
+    //simple regex for checking the validity of most email addresses
     function validateEmailAddress(email) {
       var regx = /\S+@\S+\.\S+/;
       return regx.test(email);

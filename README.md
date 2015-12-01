@@ -6,7 +6,7 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * AngularJS
   * NodeJS
   * ExpressJS
-  * SASS
+  * Sass
   * Jade
   * MongoDB
 
@@ -48,8 +48,8 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Tested express-sessions, ran into trouble
 
 ###Nov. 29, 2015
-  * Implemented mongoDB GET functionality for user and poll data use in the client-side
-  * Formatted database data into a JSON template
+  * Implemented mongoDB GET functionality for user and poll data in the client-side
+  * Formatted JSON data
   * Server-side presented to the client via AngularJS ngInit in the markup
   * Added form validation for signup and login views
   * Cleaned up some code and added some documentation

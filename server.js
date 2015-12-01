@@ -68,31 +68,73 @@ router.get("/signup", function(request, response, next) {
 
 });
 
+/* POST new user signup data */
+router.post("/signup/new", function(request, response, next) {
+
+  db.open(function(error, db) {
+    if(error) { console.log("Error opening db: " + error); }
+    else { console.log("Database opened."); }
+    
+    var userData = [];
+
+    db.collection("users", function(error, collection) {
+      if(error) { console.log("Collection error: " + error); }
+      else {
+        collection.find({}, function(error, documents) {
+          documents.each(function(error, item) {
+            if(error) { console.log("Error reading documents: " + error); }
+            userData.push(item);
+          });
+        });
+
+        var newUser = request.body;
+        var newUserEmail = newUser.email;
+
+        userData.forEach(function(user) {
+          if(user.email === newUserEmail) {
+            console.log("User exists.");
+            db.close();
+            response.status(500).send("User Exists.").end();
+          } else {
+            collection.save(newUser, function(error, result) {
+              if(error) { console.log("Insertion error: " + error); }
+              else {
+                console.log("Insertion Success: " + result);
+                db.close();
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+});
+
 /* GET login page. */
 router.get("/login", function(request, response, next) {
 
   db.open(function(error, db) {
-    if(error) {
-      console.log("Error opening db: " + error);
-    } else {
-      console.log("Database opened.");
-    }
-    db.collection("users", function(error, collection) {
-      var userData = [];
+    if(error) { console.log("Error opening db: " + error); }
+    else { console.log("Database opened."); }
 
-      collection.find({}, function(error, documents) {
-        documents.each(function(error, item) {
-          if(error || !item) {
-            console.log("Database closed.");
-            db.close();
-            response.render("login", {
-              title: "MaxVote | Log in",
-              userData: userData
-            });
-          }
-          userData.push(item);
+    db.collection("users", function(error, collection) {
+      if(error) { console.log("Collection error: " + error); }
+      else {
+        var userData = [];
+        collection.find({}, function(error, documents) {
+          documents.each(function(error, item) {
+            if(error || !item) {
+              console.log("Database closed.");
+              db.close();
+              response.render("login", {
+                title: "MaxVote | Log in",
+                userData: userData
+              });
+            }
+            userData.push(item);
+          });
         });
-      });
+      }
     });
   })
 });
@@ -100,28 +142,28 @@ router.get("/login", function(request, response, next) {
 /* GET dashboard page. */
 router.get("/dashboard", function(request, response, next) {
   db.open(function(error, db) {
-    if(error) {
-      console.log("Error opening db: "  + error);
-    } else {
-      console.log("Database opened.");
-    }
+    if(error) { console.log("Error opening db: "  + error); }
+    else { console.log("Database opened."); }
 
     db.collection("polls", function(error, collection) {
-      var pollData = [];
+      if(error) { console.log("Collection error: " + error); }
+      else {
+        var pollData = [];
 
-      collection.find({}, function(error, documents) {
-        documents.each(function(error, item) {
-          if(error || !item) {
-            console.log("Database closed.")
-            db.close();
-            response.render("dashboard", {
-              title: "MaxVote | Dashboard",
-              pollData: pollData
-            });
-          }
-          pollData.push(item);
+        collection.find({}, function(error, documents) {
+          documents.each(function(error, item) {
+            if(error || !item) {
+              console.log("Database closed.")
+              db.close();
+              response.render("dashboard", {
+                title: "MaxVote | Dashboard",
+                pollData: pollData
+              });
+            }
+            pollData.push(item);
+          });
         });
-      });
+      }
     });
   });
 });
@@ -141,6 +183,7 @@ router.get("/dashboard/data", function(request, response, next) {
 /* HTTP page routing */
 app.use("/", router);
 app.use("/signup", router);
+app.use("/signup/new", router);
 app.use("/login", router);
 app.use("/settings", router);
 app.use("/dashboard", router);
