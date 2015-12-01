@@ -96,6 +96,8 @@
         email: $("#signup-email").val(),
         password: $("#signup-pass").val()
       }
+
+      //boolean to control when the http request fires
       var wait = false;
 
       //form validation gateways and then an $http post to save new user
@@ -111,10 +113,15 @@
       } if(!wait) {
         $http.post("/signup/new", newUser)
           .success(function(data) {
-            console.log("Signup Successful " + data);
+            console.log("Signup Successful.");
+            //window.location.href = "/dashboard";
           })
           .error(function(data) {
-            console.log("Signup Failed " + data);
+            console.log("Signup Failed.");
+
+            if(data == "User Exists.") {
+              $("#user-fail").show();
+            }
           });
       }
     };
@@ -164,7 +171,7 @@
 
      $scope.users.forEach(function(user) {
         if(userEmail === user.email && userPassword === user.password) {
-          window.location.href = "/dashboard";
+          //window.location.href = "/dashboard";
         } else {
           $("#login-fail").show();
         }

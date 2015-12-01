@@ -39,16 +39,17 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Finished dashboard markup and styling
   * Added Angular and jQuery functionality for newpoll, looks nice
 
-###Nov.23, 2015
+###Nov. 23, 2015
   * Finished dashboard view functionality, including saved polls
   * Used Plotly.js for poll pie charts - not fan of forced plotly toolbar, but I get it
 
-###Nov.23, 2015
+###Nov. 24, 2015
   * Pivoted charting library to Google Charts. I decided I didn't like the plotly toolbar
   * Tested express-sessions, ran into trouble
 
-###Nov. 29, 2015
+###Nov. 29 - 30, 2015
   * Implemented mongoDB GET functionality for user and poll data in the client-side
+  * Implemented mongoDB POST functionality for user signup
   * Formatted JSON data
   * Server-side presented to the client via AngularJS ngInit in the markup
   * Added form validation for signup and login views
@@ -57,6 +58,7 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
 ##To Do
   * express-sessions sessions store
   * Authentication (oAuth, local, twitter)
+  * HTML forms + Angular
   * Connect app to twitter api for login and tweets
   * Allow a non-authenticated user to view and vote on polls (via twitter or direct link?)
   * Heroku

@@ -71,39 +71,47 @@ router.get("/signup", function(request, response, next) {
 /* POST new user signup data */
 router.post("/signup/new", function(request, response, next) {
 
+  var userData = [];
+  var userListFinished = false;
+  var newUser = request.body;
+  var newUserEmail = newUser.email;
+  var validUser = true;
+
   db.open(function(error, db) {
     if(error) { console.log("Error opening db: " + error); }
-    else { console.log("Database opened."); }
-    
-    var userData = [];
 
     db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
       else {
+
         collection.find({}, function(error, documents) {
           documents.each(function(error, item) {
-            if(error) { console.log("Error reading documents: " + error); }
+
+            /* if the documents are done being processed, initiate validation
+               and DB insertion */
+            if(error || !item) {
+              userData.forEach(function(user) {
+                if(user.email === newUserEmail) {
+                  validUser = false;
+                  db.close();
+                  response.status(500).send("User Exists.");
+                }
+              });
+
+              if(validUser) {
+                collection.save(newUser, function(error, result) {
+                  if(error) { console.log("Insertion error: " + error); }
+                  else {
+                    console.log("Insertion successful: " + result);
+                    db.close();
+                    response.sendStatus(200).end();
+                  }
+                });
+              }
+            }
+            //if a document in the query cursor still exists, push it to the userData array
             userData.push(item);
           });
-        });
-
-        var newUser = request.body;
-        var newUserEmail = newUser.email;
-
-        userData.forEach(function(user) {
-          if(user.email === newUserEmail) {
-            console.log("User exists.");
-            db.close();
-            response.status(500).send("User Exists.").end();
-          } else {
-            collection.save(newUser, function(error, result) {
-              if(error) { console.log("Insertion error: " + error); }
-              else {
-                console.log("Insertion Success: " + result);
-                db.close();
-              }
-            });
-          }
         });
       }
     });
@@ -115,16 +123,15 @@ router.get("/login", function(request, response, next) {
 
   db.open(function(error, db) {
     if(error) { console.log("Error opening db: " + error); }
-    else { console.log("Database opened."); }
 
     db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
       else {
         var userData = [];
+
         collection.find({}, function(error, documents) {
           documents.each(function(error, item) {
             if(error || !item) {
-              console.log("Database closed.");
               db.close();
               response.render("login", {
                 title: "MaxVote | Log in",
@@ -143,7 +150,6 @@ router.get("/login", function(request, response, next) {
 router.get("/dashboard", function(request, response, next) {
   db.open(function(error, db) {
     if(error) { console.log("Error opening db: "  + error); }
-    else { console.log("Database opened."); }
 
     db.collection("polls", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
@@ -153,7 +159,6 @@ router.get("/dashboard", function(request, response, next) {
         collection.find({}, function(error, documents) {
           documents.each(function(error, item) {
             if(error || !item) {
-              console.log("Database closed.")
               db.close();
               response.render("dashboard", {
                 title: "MaxVote | Dashboard",
