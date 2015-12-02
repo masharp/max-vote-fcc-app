@@ -27,8 +27,7 @@
   app.controller("NavController", ["$scope", "$cookies", function($scope, $cookies) {
     /* Manage a browser cookie to control cross-page navbar highlighting */
     $scope.cookie = $cookies.getObject("max-vote");
-    var tCookie = $cookies.getObject("max-vote0.0.1");
-    console.log("Session Cookie: " + tCookie);
+
     if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
 
     /* Temp Test Object */
@@ -90,28 +89,27 @@
       $(".fail-label").hide();
     });
 
-    $scope.signupGeneric = function() {
-      var newUser = {
-        name: $("#signup-name").val(),
-        email: $("#signup-email").val(),
-        password: $("#signup-pass").val()
-      }
+    $scope.handleEnterKey = function(event) {
+      event.keyCode == 13 ? $scope.signupGeneric() : null;
+    }
 
+    $scope.signupGeneric = function() {
       //boolean to control when the http request fires
       var wait = false;
 
       //form validation gateways and then an $http post to save new user
-      if(!newUser.name) {
+      if(!$scope.newUser.name) {
         $("#name-fail").show();
         wait = true;
-      } if(!newUser.email || !validateEmailAddress(newUser.email)) {
+      } if(!$scope.newUser.email || !validateEmailAddress($scope.newUser.email)) {
         $("#email-fail").show();
         wait = true;
-      } if(newUser.password.length < 5) {
+      } if($scope.newUser.password.length < 5) {
         $("#password-fail").show();
         wait = true;
       } if(!wait) {
-        $http.post("/signup/new", newUser)
+        /*
+        $http.post("/signup/new", $scope.newUser)
           .success(function(data) {
             console.log("Signup Successful.");
             //window.location.href = "/dashboard";
@@ -123,6 +121,7 @@
               $("#user-fail").show();
             }
           });
+          */
       }
     };
 
@@ -140,14 +139,23 @@
   /* ----------- Settings page controller ---------------- */
   app.controller("SettingsController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
+    $(".fail-label").hide();
 
-    var changePass = {
-      current: function() { return $("#settings-current").val(); },
-      new: function() { return $("#settings-new").val(); }
-    }
-    $("#settings-btn").click(function() {
-      console.log("settings clicked");
+    $("input").click(function() {
+     $(".fail-label").hide();
     });
+
+    $scope.submitNewPassword = function() {
+      console.log($scope.current + " " + $scope.new);
+
+      if($scope.new.length < 5) {
+        $("#new-pass-fail").show();
+      }
+    };
+
+    $scope.handleEnterKey = function(event) {
+      event.keyCode == 13 ? $scope.submitNewPassword() : null;
+    };
   }]);
 
   /* ------------------ Login page controller ------------------ */
@@ -159,23 +167,21 @@
      $("#login-fail").hide();
     });
 
-    var userLogin = {
-      email: function() { return $("#login-email").val(); },
-      password: function() { return $("#login-pass").val(); }
+    $scope.handleEnterKey = function(event) {
+      event.keyCode == 13 ? $scope.authenticateUserGeneric() : null;
     }
 
     $scope.authenticateUserGeneric = function() {
-      var userEmail = userLogin.email();
-      var userPassword = userLogin.password();
-      console.log(userEmail + " " + userPassword);
 
-     $scope.users.forEach(function(user) {
-        if(userEmail === user.email && userPassword === user.password) {
+      /*
+     $scope.userData.forEach(function(savedUser) {
+        if($scope.userLogin.email === savedUser.email && $scope.userLogin.password === savedUser.password) {
           //window.location.href = "/dashboard";
         } else {
           $("#login-fail").show();
         }
       });
+      */
     }
     $scope.authenticateUserTwitter = function() {
       console.log("Twitter Authenticating...");
@@ -188,7 +194,7 @@
     $scope.panel = 0;
     $scope.selectedPoll = -1;
 
-    var newPoll = {
+    $scope.newPoll = {
       name: "",
       options: []
     };
@@ -211,16 +217,13 @@
     };
 
     $scope.savePoll = function() {
-      newPoll.name = $("#poll-name").val();
-
       $(".poll-option").each(function() {
         var optionText = $(this).val();
-        newPoll.options.push(optionText);
+        $scope.newPoll.options.push(optionText);
       });
 
-      //reset the newPoll object
-      newPoll.options = [];
-      newPoll.name = "";
+      //reset the newPoll options
+      $scope.newPoll.options = [];
     };
 
     /* jQuery Event Delegation for dynamically removing element associated with the 'i' element selector */

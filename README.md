@@ -57,10 +57,12 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
 
 ###Dec. 1, 2015
   * Integrated mongoDB session store
+  * cleaned NPM
+  * fixed UI input submitting and angular ngModels
 
 ##To Do
-  * Authentication (oAuth, local, twitter)
-  * HTML forms + Angular
+  * HTTP requests (dash POST, settings POST, login POST)
+  * Authentication (local, twitter)
   * Connect app to twitter api for login and tweets
   * Allow a non-authenticated user to view and vote on polls (via twitter or direct link?)
   * Heroku

@@ -19,7 +19,7 @@ block content
           a(ng-click="selectPanel(1)") My Polls
       #body-newpoll.panel(ng-show="isSelected(0)")
         #newpoll-inputs.row
-          input#poll-name(type="text", placeholder="Poll Name")
+          input#poll-name(type="text", placeholder="Poll Name", ng-model="newPoll.name")
           i#spec.fa.fa-times
           br
           input.poll-option(type="text", placeholder="Option")
@@ -41,6 +41,6 @@ block content
               br
               div#twitter-share.btn #[i.fa.fa-twitter] Share on Twitter
               div#poll-remove-btn.btn(ng-click="sharePoll($index)") Remove
-      #footer.navbar-fixed-bottom
+      #footer
           p Graphs powered by #[a(href="https://developers.google.com/chart/?hl=en", target="_blank") Google Charts] 
               

@@ -1,7 +1,7 @@
-extends layout
+extends layout  
 
 block content
-  #login-page(ng-controller="LoginController" ng-init="users=#{JSON.stringify(userData)}")  
+  #login-page(ng-controller="LoginController")  
     #dashboard
       #dashboard-home
         h1 MaxVote
@@ -9,17 +9,18 @@ block content
     
     #body.container          
       #body-login
-        form(novalidate).simple-form
-          div.row
-            label Email
-            br
-            input#login-email(type="email", ng-model="")
-          div.row
-            label Password
-            br
-            input#login-pass(type="password")
-          div.row
-            label#login-fail.fail-label Login Failed. Please try again.
-          div.row
-            div#generic-login.btn(ng-click="authenticateUserGeneric()") Log in
-            div#twitter-login.btn(ng-click="authenticateUserTwitter()") #[i.fa.fa-twitter] Sign in with Twitter
+        div.row
+          label Email
+          br
+          input#login-email(type="email", ng-model="userLogin.email", ng-keyup="handleEnterKey($event)")
+        div.row
+          label Password
+          br
+          input#login-pass(type="password", ng-model="userLogin.password", ng-keyup="$event.keyCode == 13 ? authenticateUserGeneric() : null")
+        div.row
+          label#login-fail.fail-label Login Failed. Please try again.
+        div.row
+          div#generic-login.btn(type="submit", ng-click="authenticateUserGeneric()") Log in
+          div#twitter-login.btn(ng-click="authenticateUserTwitter()") #[i.fa.fa-twitter] Sign in with Twitter
+            
+// ng-init="usersData=#{JSON.stringify(userData)}"

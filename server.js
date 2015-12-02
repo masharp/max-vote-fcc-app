@@ -126,6 +126,11 @@ router.post("/signup/new", function(request, response, next) {
 router.get("/login", function(request, response, next) {
   //var sessionData = request.session;
 
+  response.render("login", {
+    title: "MaxVote | Log in"
+  });
+
+/*
   mongoDb.open(function(error, db) {
     if(error) { console.log("Error opening db: " + error); }
 
@@ -148,7 +153,8 @@ router.get("/login", function(request, response, next) {
         });
       }
     });
-  })
+  });
+  */
 });
 
 /* POST user login data */

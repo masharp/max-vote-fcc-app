@@ -13,19 +13,19 @@ block content
         div.row
           label Name
           br
-          input#signup-name(type="input")
+          input#signup-name(type="input", ng-model="newUser.name", ng-keyup="handleEnterKey($event)")
           br
           label#name-fail.fail-label Please input a name.
         div.row
           label Email
           br
-          input#signup-email(type="email")
+          input#signup-email(type="email", ng-model="newUser.email", ng-keyup="handleEnterKey($event)")
           br
           label#email-fail.fail-label Please input an email (jo@joey.net).
         div.row
           label Password
           br
-          input#signup-pass(type="password")
+          input#signup-pass(type="password", ng-model="newUser.password", ng-keyup="handleEnterKey($event)")
           br
           label#password-fail.fail-label Please input a password that is at least 5 characters long.
         div.row
