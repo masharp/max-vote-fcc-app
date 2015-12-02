@@ -9,16 +9,17 @@ block content
     
     #body.container          
       #body-login
-        div.row
-          label Email
-          br
-          input#login-email(type="email")
-        div.row
-          label Password
-          br
-          input#login-pass(type="password")
-        div.row
-          label#login-fail.fail-label Login Failed. Please try again.
-        div.row
-          div#generic-login.btn(ng-click="authenticateUserGeneric()") Log in
-          div#twitter-login.btn(ng-click="authenticateUserTwitter()") #[i.fa.fa-twitter] Sign in with Twitter
+        form(novalidate).simple-form
+          div.row
+            label Email
+            br
+            input#login-email(type="email", ng-model="")
+          div.row
+            label Password
+            br
+            input#login-pass(type="password")
+          div.row
+            label#login-fail.fail-label Login Failed. Please try again.
+          div.row
+            div#generic-login.btn(ng-click="authenticateUserGeneric()") Log in
+            div#twitter-login.btn(ng-click="authenticateUserTwitter()") #[i.fa.fa-twitter] Sign in with Twitter

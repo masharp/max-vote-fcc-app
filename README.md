@@ -55,10 +55,13 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Added form validation for signup and login views
   * Cleaned up some code and added some documentation
 
+###Dec. 1, 2015
+  * Integrated mongoDB session store
+
 ##To Do
-  * express-sessions sessions store
   * Authentication (oAuth, local, twitter)
   * HTML forms + Angular
   * Connect app to twitter api for login and tweets
   * Allow a non-authenticated user to view and vote on polls (via twitter or direct link?)
   * Heroku
+  * do something with sessions?
