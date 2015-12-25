@@ -159,7 +159,7 @@
   }]);
 
   /* ------------------ Login page controller ------------------ */
-  app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
+  app.controller("LoginController", ["$scope", "$cookies", "$http", function($scope, $cookies, $http) {
     $cookies.remove("max-vote");
     $("#login-fail").hide();
 
@@ -169,7 +169,7 @@
 
     $scope.handleEnterKey = function(event) {
       event.keyCode == 13 ? $scope.authenticateUserGeneric() : null;
-    }
+    };
 
     $scope.authenticateUserGeneric = function() {
 
@@ -182,10 +182,12 @@
         }
       });
       */
-    }
+    };
+
+    /* Make a POST request to trigger server-side Passport authentication strategy */
     $scope.authenticateUserTwitter = function() {
-      console.log("Twitter Authenticating...");
-    }
+      $http.post("/login-twitter", null);
+    };
   }]);
 
   /* ------------------- Dashboard page controller ------------------*/
@@ -246,10 +248,8 @@
 
       //transfer poll data from capture array to full chart array (including chart titling)
       for(var i = 0; i < currentPoll.options.length; i++) {
-        pollData.push([currentPoll.options[i], currentPoll.results[i]]);
+        pollData.push([currentPoll.options[i], Number(currentPoll.results[i])]);
       };
-
-      console.log(pollData);
 
       function drawChart() {
         var chartData = google.visualization.arrayToDataTable(pollData);

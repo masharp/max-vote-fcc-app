@@ -60,9 +60,13 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * cleaned NPM
   * fixed UI input submitting and angular ngModels
 
+###Dec. 25, 2015
+  * Fixed Google Chart display
+  * Began adding Passport middleware for authentication
+
 ##To Do
-  * HTTP requests (dash POST, settings POST, login POST)
   * Authentication (local, twitter)
+  * HTTP requests (dash POST, settings POST, login POST)
   * Connect app to twitter api for login and tweets
   * Allow a non-authenticated user to view and vote on polls (via twitter or direct link?)
   * Heroku

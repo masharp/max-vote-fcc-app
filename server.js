@@ -1,9 +1,3 @@
-/* Max-Vote Application Server
-  - Contains all of the back-end server and database functionality to power the Max-Vote app.
-    This module is exported to the bin/www file, which handles server initialization
-
-*/
-
 /* Module Dependencies */
 var express = require("express");
 var path = require("path");
@@ -13,7 +7,8 @@ var parseUrl = require("parseurl");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var passport = require("passport");
-var passportTwitter = require("passport-twitter");
+var twitterPassport = require("passport-twitter").Strategy;
+var localPassport = require("passport-local");
 
 /* MongoDB setup */
 var MongoClient = require("mongodb").MongoClient;
@@ -22,7 +17,6 @@ var Server = require("mongodb").Server;
 var MongoStore = require("connect-mongo")(session);
 var url = "mongodb://localhost:27017/max-vote";
 var mongoDb = new Database("max-vote", new Server("localhost", 27017));
-
 
 /* Express Application */
 var app = express();
@@ -43,8 +37,6 @@ app.use(session({
   }),
 }));
 
-/* Passport Authentication Setup */
-
 /* View Engine setup */
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -54,6 +46,10 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
+/* Passport Authentication Setup */
+app.use(passport.initialize());
+app.use(passport.session());
 
 /* GET home page. */
 router.get("/", function(request, response, next) {
@@ -162,6 +158,14 @@ router.post("/login", function(request, response, next) {
 
 });
 
+router.post("/login-twitter", passport.authenticate("twitter",
+  {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
+
 /* GET dashboard page. */
 router.get("/dashboard", function(request, response, next) {
   //var sessionData = request.session;
@@ -205,6 +209,7 @@ app.use("/", router);
 app.use("/signup", router);
 app.use("/signup/new", router);
 app.use("/login", router);
+app.use("/login-twitter", router);
 app.use("/settings", router);
 app.use("/dashboard", router);
 app.use("/dashboard/data", router);

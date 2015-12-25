@@ -192,6 +192,7 @@ body {
       }
       .saved-poll {
         margin-bottom: 30px;
+        padding: 30px;
 
         .option {
           color: green;
@@ -202,7 +203,8 @@ body {
         }
         .poll-graph {
           display: inline-block;
-          width: 250px;
+          width: 300px;
+          height: auto;
         }
         #poll-remove-btn {
           background-color: red;
