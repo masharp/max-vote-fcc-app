@@ -18,3 +18,4 @@ node_modules
 *.css.map
 
 *.env
+.env
