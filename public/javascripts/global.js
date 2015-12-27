@@ -186,7 +186,7 @@
 
     /* Make a POST request to trigger server-side Passport authentication strategy */
     $scope.authenticateUserTwitter = function() {
-      $http.post("/login-twitter", null);
+      window.location.href="http://127.0.0.1:3000/auth/twitter";
     };
   }]);
 

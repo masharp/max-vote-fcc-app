@@ -6,9 +6,28 @@ var logger = require("morgan");
 var parseUrl = require("parseurl");
 var bodyParser = require("body-parser");
 var session = require("express-session");
+var dotenv = require("dotenv").load();
 var passport = require("passport");
-var twitterPassport = require("passport-twitter").Strategy;
-var localPassport = require("passport-local");
+var TwitterStrategy = require("passport-twitter").Strategy;
+var LocalStrategy = require("passport-local");
+
+/* Passport Authentication Setup */
+passport.use(new TwitterStrategy({
+  consumerKey: process.env.TWITTER_CONSUMER_KEY,
+  consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+  callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
+  },
+  function(token, tokenScret, profile, callback) {
+    return callback(null, profile);
+}));
+
+passport.serializeUser(function(user, callback) {
+  callback(null, user);
+});
+
+passport.deserializeUser(function(object, callback) {
+  callback(null, object)
+});
 
 /* MongoDB setup */
 var MongoClient = require("mongodb").MongoClient;
@@ -37,7 +56,7 @@ app.use(session({
   }),
 }));
 
-/* View Engine setup */
+/* App Engine setup */
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
@@ -47,7 +66,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-/* Passport Authentication Setup */
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -158,13 +176,14 @@ router.post("/login", function(request, response, next) {
 
 });
 
-router.post("/login-twitter", passport.authenticate("twitter",
+/* GET Twitter Authentication */
+router.get("/auth/twitter", passport.authenticate("twitter"));
+router.get("/auth/twitter/callback", passport.authenticate("twitter",
   {
     successRedirect: "/dashboard",
     failureRedirect: "/login",
     failureFlash: true
-  })
-);
+  }))
 
 /* GET dashboard page. */
 router.get("/dashboard", function(request, response, next) {
@@ -209,7 +228,8 @@ app.use("/", router);
 app.use("/signup", router);
 app.use("/signup/new", router);
 app.use("/login", router);
-app.use("/login-twitter", router);
+app.use("/auth/local", router);
+app.use("/auth/twitter", router);
 app.use("/settings", router);
 app.use("/dashboard", router);
 app.use("/dashboard/data", router);

@@ -64,10 +64,14 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Fixed Google Chart display
   * Began adding Passport middleware for authentication
 
+###Dev. 26, 2015
+  * Finished Twitter Sign-in
+
 ##To Do
-  * Authentication (local, twitter)
+  * Authentication (local)
+  * Serialize user to allow access to views, hide others, and show user's info
   * HTTP requests (dash POST, settings POST, login POST)
-  * Connect app to twitter api for login and tweets
+  * Connect app to twitter api tweets
   * Allow a non-authenticated user to view and vote on polls (via twitter or direct link?)
   * Heroku
   * do something with sessions?
