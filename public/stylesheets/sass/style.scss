@@ -8,9 +8,6 @@ body {
 #nav {
   margin-bottom: 0;
 
-  #settings-btn {
-    font-size: 1.2em;
-  }
 }
 #dashboard {
   background-color: $main-color;
@@ -75,56 +72,19 @@ body {
   #twitter-icon {
     color: #55ACEE;
   }
-  #body-signup, #body-login, #body-settings {
-    text-align: left;
+  #body-signup, #body-login {
+    text-align: center;
 
-    .fail-label {
-      color: red;
-    }
-    label {
-      margin-top: 5px;
-    }
-    input {
-      margin-bottom: 15px;
-      width: 50%;
-    }
-    .btn {
-      margin-right: 50px;
-    }
-    #generic-signup, #generic-login {
-      background-color: green;
-      color: white;
-      &:hover {
-        background-color: darken(green, 10);
-      }
-    }
     #twitter-signup, #twitter-login {
       background-color: #55ACEE;
       color: white;
-      margin-right: 50px;
+      margin-top: 1em;
+      font-size: 1.2em;
       i {
-        font-size: 1em;
+        font-size: 1.1em;
       }
       &:hover {
         background-color: darken(#55ACEE, 10);
-      }
-    }
-  }
-  #body-settings {
-    text-align: left;
-
-    label {
-      margin-top: 5px;
-    }
-    input {
-      margin-bottom: 20px;
-      width: 50%;
-    }
-    #settings-btn {
-      background-color: red;
-      color: white;
-      &:hover {
-        background-color: darken(red, 10);
       }
     }
   }

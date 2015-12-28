@@ -30,13 +30,23 @@
 
     if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
 
-    /* Temp Test Object */
-    $scope.data = {
-      authUser: false,
-      username: "John"
-    };
+    $scope.user = user ? user : null;
+    
+    if($scope.user) {
+      console.log($scope.user);
 
-    /*Function to trigger click events on the navbar and call the page route*/
+      $scope.data = {
+        authUser: true,
+        username: $scope.user.username
+      }
+    } else {
+      $scope.data = {
+        authUser: false,
+        username: ""
+      }
+    }
+
+    /* Function to trigger click events on the navbar and call the page route */
     $scope.changePage = function(page) {
 
       switch(page) {
@@ -58,10 +68,6 @@
           $cookies.put("max-vote", "2");
           window.location.href = "/login";
           break;
-        case 3:
-          $cookies.put("max-vote", "3");
-          window.location.href = "/settings";
-          break;
         case 4:
           $cookies.put("max-vote", "0");
           window.location.href = "/";
@@ -81,108 +87,19 @@
   }]);
 
   /*---------------- Signup page controller ------------------------ */
-  app.controller("SignupController", ["$scope", "$cookies", "$http", function($scope, $cookies, $http) {
+  app.controller("SignupController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
     $(".fail-label").hide();
-
-    $("input").click(function() {
-      $(".fail-label").hide();
-    });
-
-    $scope.handleEnterKey = function(event) {
-      event.keyCode == 13 ? $scope.signupGeneric() : null;
-    }
-
-    $scope.signupGeneric = function() {
-      //boolean to control when the http request fires
-      var wait = false;
-
-      //form validation gateways and then an $http post to save new user
-      if(!$scope.newUser.name) {
-        $("#name-fail").show();
-        wait = true;
-      } if(!$scope.newUser.email || !validateEmailAddress($scope.newUser.email)) {
-        $("#email-fail").show();
-        wait = true;
-      } if($scope.newUser.password.length < 5) {
-        $("#password-fail").show();
-        wait = true;
-      } if(!wait) {
-        /*
-        $http.post("/signup/new", $scope.newUser)
-          .success(function(data) {
-            console.log("Signup Successful.");
-            //window.location.href = "/dashboard";
-          })
-          .error(function(data) {
-            console.log("Signup Failed.");
-
-            if(data == "User Exists.") {
-              $("#user-fail").show();
-            }
-          });
-          */
-      }
-    };
 
     $scope.signupTwitter = function() {
-      console.log("Signing up with Twitter...");
-    };
-
-    //simple regex for checking the validity of most email addresses
-    function validateEmailAddress(email) {
-      var regx = /\S+@\S+\.\S+/;
-      return regx.test(email);
-    };
-  }]);
-
-  /* ----------- Settings page controller ---------------- */
-  app.controller("SettingsController", ["$scope", "$cookies", function($scope, $cookies) {
-    $cookies.remove("max-vote");
-    $(".fail-label").hide();
-
-    $("input").click(function() {
-     $(".fail-label").hide();
-    });
-
-    $scope.submitNewPassword = function() {
-      console.log($scope.current + " " + $scope.new);
-
-      if($scope.new.length < 5) {
-        $("#new-pass-fail").show();
-      }
-    };
-
-    $scope.handleEnterKey = function(event) {
-      event.keyCode == 13 ? $scope.submitNewPassword() : null;
+      window.location.href="http://127.0.0.1:3000/auth/twitter";
     };
   }]);
 
   /* ------------------ Login page controller ------------------ */
-  app.controller("LoginController", ["$scope", "$cookies", "$http", function($scope, $cookies, $http) {
+  app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
     $("#login-fail").hide();
-
-    $("input").click(function() {
-     $("#login-fail").hide();
-    });
-
-    $scope.handleEnterKey = function(event) {
-      event.keyCode == 13 ? $scope.authenticateUserGeneric() : null;
-    };
-
-    $scope.authenticateUserGeneric = function() {
-
-      /*
-     $scope.userData.forEach(function(savedUser) {
-        if($scope.userLogin.email === savedUser.email && $scope.userLogin.password === savedUser.password) {
-          //window.location.href = "/dashboard";
-        } else {
-          $("#login-fail").show();
-        }
-      });
-      */
-    };
 
     /* Make a POST request to trigger server-side Passport authentication strategy */
     $scope.authenticateUserTwitter = function() {
@@ -195,6 +112,9 @@
     $cookies.remove("max-vote");
     $scope.panel = 0;
     $scope.selectedPoll = -1;
+
+    $scope.user = user;
+    console.log($scope.user);
 
     $scope.newPoll = {
       name: "",

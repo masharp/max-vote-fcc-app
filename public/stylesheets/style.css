@@ -4,8 +4,6 @@ body {
 
 #nav {
   margin-bottom: 0; }
-  #nav #settings-btn {
-    font-size: 1.2em; }
 
 #dashboard {
   background-color: #A0785A;
@@ -51,42 +49,17 @@ body {
     color: green; }
   #body #twitter-icon, #body-dash #twitter-icon {
     color: #55ACEE; }
-  #body #body-signup, #body #body-login, #body #body-settings, #body-dash #body-signup, #body-dash #body-login, #body-dash #body-settings {
-    text-align: left; }
-    #body #body-signup .fail-label, #body #body-login .fail-label, #body #body-settings .fail-label, #body-dash #body-signup .fail-label, #body-dash #body-login .fail-label, #body-dash #body-settings .fail-label {
-      color: red; }
-    #body #body-signup label, #body #body-login label, #body #body-settings label, #body-dash #body-signup label, #body-dash #body-login label, #body-dash #body-settings label {
-      margin-top: 5px; }
-    #body #body-signup input, #body #body-login input, #body #body-settings input, #body-dash #body-signup input, #body-dash #body-login input, #body-dash #body-settings input {
-      margin-bottom: 15px;
-      width: 50%; }
-    #body #body-signup .btn, #body #body-login .btn, #body #body-settings .btn, #body-dash #body-signup .btn, #body-dash #body-login .btn, #body-dash #body-settings .btn {
-      margin-right: 50px; }
-    #body #body-signup #generic-signup, #body #body-signup #generic-login, #body #body-login #generic-signup, #body #body-login #generic-login, #body #body-settings #generic-signup, #body #body-settings #generic-login, #body-dash #body-signup #generic-signup, #body-dash #body-signup #generic-login, #body-dash #body-login #generic-signup, #body-dash #body-login #generic-login, #body-dash #body-settings #generic-signup, #body-dash #body-settings #generic-login {
-      background-color: green;
-      color: white; }
-      #body #body-signup #generic-signup:hover, #body #body-signup #generic-login:hover, #body #body-login #generic-signup:hover, #body #body-login #generic-login:hover, #body #body-settings #generic-signup:hover, #body #body-settings #generic-login:hover, #body-dash #body-signup #generic-signup:hover, #body-dash #body-signup #generic-login:hover, #body-dash #body-login #generic-signup:hover, #body-dash #body-login #generic-login:hover, #body-dash #body-settings #generic-signup:hover, #body-dash #body-settings #generic-login:hover {
-        background-color: #004d00; }
-    #body #body-signup #twitter-signup, #body #body-signup #twitter-login, #body #body-login #twitter-signup, #body #body-login #twitter-login, #body #body-settings #twitter-signup, #body #body-settings #twitter-login, #body-dash #body-signup #twitter-signup, #body-dash #body-signup #twitter-login, #body-dash #body-login #twitter-signup, #body-dash #body-login #twitter-login, #body-dash #body-settings #twitter-signup, #body-dash #body-settings #twitter-login {
+  #body #body-signup, #body #body-login, #body-dash #body-signup, #body-dash #body-login {
+    text-align: center; }
+    #body #body-signup #twitter-signup, #body #body-signup #twitter-login, #body #body-login #twitter-signup, #body #body-login #twitter-login, #body-dash #body-signup #twitter-signup, #body-dash #body-signup #twitter-login, #body-dash #body-login #twitter-signup, #body-dash #body-login #twitter-login {
       background-color: #55ACEE;
       color: white;
-      margin-right: 50px; }
-      #body #body-signup #twitter-signup i, #body #body-signup #twitter-login i, #body #body-login #twitter-signup i, #body #body-login #twitter-login i, #body #body-settings #twitter-signup i, #body #body-settings #twitter-login i, #body-dash #body-signup #twitter-signup i, #body-dash #body-signup #twitter-login i, #body-dash #body-login #twitter-signup i, #body-dash #body-login #twitter-login i, #body-dash #body-settings #twitter-signup i, #body-dash #body-settings #twitter-login i {
-        font-size: 1em; }
-      #body #body-signup #twitter-signup:hover, #body #body-signup #twitter-login:hover, #body #body-login #twitter-signup:hover, #body #body-login #twitter-login:hover, #body #body-settings #twitter-signup:hover, #body #body-settings #twitter-login:hover, #body-dash #body-signup #twitter-signup:hover, #body-dash #body-signup #twitter-login:hover, #body-dash #body-login #twitter-signup:hover, #body-dash #body-login #twitter-login:hover, #body-dash #body-settings #twitter-signup:hover, #body-dash #body-settings #twitter-login:hover {
+      margin-top: 1em;
+      font-size: 1.2em; }
+      #body #body-signup #twitter-signup i, #body #body-signup #twitter-login i, #body #body-login #twitter-signup i, #body #body-login #twitter-login i, #body-dash #body-signup #twitter-signup i, #body-dash #body-signup #twitter-login i, #body-dash #body-login #twitter-signup i, #body-dash #body-login #twitter-login i {
+        font-size: 1.1em; }
+      #body #body-signup #twitter-signup:hover, #body #body-signup #twitter-login:hover, #body #body-login #twitter-signup:hover, #body #body-login #twitter-login:hover, #body-dash #body-signup #twitter-signup:hover, #body-dash #body-signup #twitter-login:hover, #body-dash #body-login #twitter-signup:hover, #body-dash #body-login #twitter-login:hover {
         background-color: #2795e9; }
-  #body #body-settings, #body-dash #body-settings {
-    text-align: left; }
-    #body #body-settings label, #body-dash #body-settings label {
-      margin-top: 5px; }
-    #body #body-settings input, #body-dash #body-settings input {
-      margin-bottom: 20px;
-      width: 50%; }
-    #body #body-settings #settings-btn, #body-dash #body-settings #settings-btn {
-      background-color: red;
-      color: white; }
-      #body #body-settings #settings-btn:hover, #body-dash #body-settings #settings-btn:hover {
-        background-color: #cc0000; }
 
 #body-dash {
   text-align: center; }
