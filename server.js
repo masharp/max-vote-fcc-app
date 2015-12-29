@@ -32,10 +32,8 @@ passport.use(new TwitterStrategy({
       db.collection("users", function(error, collection) {
         if(error) { console.log("Collection error: " + error); }
         else {
-
           collection.find({}, function(error, documents) {
             documents.each(function(error, item) {
-
               // if the documents are done being processed, initiate validation and DB insertion
               if(error || !item) {
                 userData.forEach(function(user) {
@@ -45,7 +43,6 @@ passport.use(new TwitterStrategy({
                     return callback(null, profile);
                   }
                 });
-
                 if(validUser) {
                   collection.save(newUser, function(error, result) {
                     if(error) { console.log("Insertion error: " + error); }
@@ -164,10 +161,9 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request,
     db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
       else {
-        var pollData = [];
-
-        collection.find({username: currentUser.username}, function(error, document) {
+        collection.findOne({username: currentUser.username}, function(error, document) {
           db.close();
+          console.log(document.polls);
           response.render("dashboard", {
             title: "MaxVote | Dashboard",
             currentUser: currentUser,
@@ -184,7 +180,21 @@ router.post("/dashboard", function(request, response, next) {
   var newPoll = request.body;
   var currentUser = parseUserData(request.user);
 
-  console.log(newPoll.name + " " + currentUser.username);
+  console.log(newPoll.name + " " + newPoll.options + " " + currentUser.username);
+
+  mongoDb.open(function(error, db) {
+    db.collection("users", function(error, collection) {
+      if(error) { console.log("Collection error: " + error); }
+      else {
+        collection.update(
+          { username: currentUser.username },
+          { $push: { polls: newPoll } }
+        );
+        db.close();
+        response.end();
+      }
+    });
+  });
 });
 
 /* HTTP page routing */
@@ -241,57 +251,3 @@ function parseUserData(userObj) {
 }
 
 module.exports = app;
-
-
-/*
-
-// POST new user signup data
-router.post("/signup/new", function(request, response, next) {
-  //var sessionData = request.session;
-
-  var userData = [];
-  var userListFinished = false;
-  var newUser = request.body;
-  var newUserEmail = newUser.email;
-  var validUser = true;
-
-  mongoDb.open(function(error, db) {
-    if(error) { console.log("Error opening db: " + error); }
-
-    db.collection("users", function(error, collection) {
-      if(error) { console.log("Collection error: " + error); }
-      else {
-
-        collection.find({}, function(error, documents) {
-          documents.each(function(error, item) {
-
-            // if the documents are done being processed, initiate validation and DB insertion
-            if(error || !item) {
-              userData.forEach(function(user) {
-                if(user.email === newUserEmail) {
-                  validUser = false;
-                  db.close();
-                  response.status(500).send("User Exists.");
-                }
-              });
-
-              if(validUser) {
-                collection.save(newUser, function(error, result) {
-                  if(error) { console.log("Insertion error: " + error); }
-                  else {
-                    console.log("Insertion successful: " + result);
-                    db.close();
-                    response.sendStatus(200).end();
-                  }
-                });
-              }
-            }
-            //if a document in the query cursor still exists, push it to the userData array
-            userData.push(item);
-          });
-        });
-      }
-    });
-  });
-});
-*/

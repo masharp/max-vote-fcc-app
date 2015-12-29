@@ -119,7 +119,8 @@
     $scope.newPoll = {
       user: $scope.user.username,
       name: "",
-      options: []
+      options: [],
+      results: []
     };
 
     /* Angular Panel Control Functions */
@@ -140,14 +141,18 @@
     };
 
     $scope.savePoll = function() {
+      //reset the newPoll options
+      $scope.newPoll.options = [];
+
       $(".poll-option").each(function() {
         var optionText = $(this).val();
         $scope.newPoll.options.push(optionText);
+        $scope.newPoll.results.push(0);
       });
 
-      $http.post("/dashboard", $scope.newPoll);
-      //reset the newPoll options
-      $scope.newPoll.options = [];
+      $http.post("/dashboard", $scope.newPoll).then(function successCallback(response) {
+        window.location.href = "/dashboard";
+      });
     };
 
     /* jQuery Event Delegation for dynamically removing element associated with the 'i' element selector */
