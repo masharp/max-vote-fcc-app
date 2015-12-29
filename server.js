@@ -27,7 +27,6 @@ passport.use(new TwitterStrategy({
     mongoDb.open(function(error, db) {
       var newUser = parseUserData(profile);
       newUser.polls = [];
-      console.log(newUser);
 
       db.collection("users", function(error, collection) {
         if(error) { console.log("Collection error: " + error); }
@@ -163,7 +162,6 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request,
       else {
         collection.findOne({username: currentUser.username}, function(error, document) {
           db.close();
-          console.log(document.polls);
           response.render("dashboard", {
             title: "MaxVote | Dashboard",
             currentUser: currentUser,
@@ -176,11 +174,9 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request,
 });
 
 /*POST dashboard for new poll saving */
-router.post("/dashboard", function(request, response, next) {
+router.post("/dashboard/add", function(request, response, next) {
   var newPoll = request.body;
   var currentUser = parseUserData(request.user);
-
-  console.log(newPoll.name + " " + newPoll.options + " " + currentUser.username);
 
   mongoDb.open(function(error, db) {
     db.collection("users", function(error, collection) {
@@ -197,6 +193,28 @@ router.post("/dashboard", function(request, response, next) {
   });
 });
 
+/*POST dashboard for removing a poll  */
+router.post("/dashboard/remove", function(request, response, next) {
+  var poll = request.body.name;
+  var currentUser = parseUserData(request.user);
+
+  console.log(poll);
+
+  mongoDb.open(function(error, db) {
+    db.collection("users", function(error, collection) {
+      if(error) { console.error("Collection error: " + error); }
+      else {
+        collection.update(
+          { username: currentUser.username },
+          { $pull: { polls: { name: poll } } }
+        );
+        db.close();
+        response.end();
+      }
+    });
+  });
+});
+
 /* HTTP page routing */
 app.use("/", router);
 app.use("/signup", router);
@@ -205,6 +223,8 @@ app.use("/logout", router);
 app.use("/auth/local", router);
 app.use("/auth/twitter", router);
 app.use("/dashboard", router);
+app.use("/dashboard/add", router);
+app.use("/dashboard/remove", router);
 
 /* Catch 404 error and forward to error handler */
 app.use(function(request, response, next) {

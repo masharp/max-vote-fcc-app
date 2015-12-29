@@ -140,6 +140,18 @@
       $("#newpoll-inputs").append(newOption);
     };
 
+    /*Angular removePoll Control Function
+        - takes the specific poll and POSTS it to the server to be removed */
+    $scope.removePoll = function(poll) {
+      var currentPoll = $scope.savedPolls[poll];
+
+      $http.post("/dashboard/remove", currentPoll).then(function successCallback(response) {
+        window.location.href = "/dashboard";
+      });
+    };
+
+    /*Angular savePoll Controll Function
+        - takes the poll and POSTS it to the server to be saved */
     $scope.savePoll = function() {
       //reset the newPoll options
       $scope.newPoll.options = [];
@@ -150,19 +162,19 @@
         $scope.newPoll.results.push(0);
       });
 
-      $http.post("/dashboard", $scope.newPoll).then(function successCallback(response) {
+      $http.post("/dashboard/add", $scope.newPoll).then(function successCallback(response) {
         window.location.href = "/dashboard";
       });
     };
 
     /* jQuery Event Delegation for dynamically removing element associated with the 'i' element selector */
-    $(document).on("click", "i", function(event) {
+    $(document).on("click", "i.fa-times", function(event) {
       $(this).prev().remove();
       $(this).next().remove(); //removes the leftover whitespace
       $(this).remove();
 
       //reset the options to remove the deleted option value
-      newPoll.options = [];
+      $scope.newPoll.options = [];
     });
     /* ------ */
 
@@ -194,12 +206,5 @@
     $scope.sharePoll = function(poll) {
 
     };
-
-    /* jQuery Event Delegation for dynamically removing a poll and updating the UI */
-    $(document).on("click", "#poll-remove-btn", function(event) {
-      $(this).parent().parent().remove();
-      $(this).next().remove();
-    });
-
   }]);
 })();

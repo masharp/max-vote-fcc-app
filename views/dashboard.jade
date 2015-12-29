@@ -41,8 +41,8 @@ block content
             div.row(ng-show="pollSelected($index)")
               div.poll-graph(ng-attr-id="{{'poll-' + $index}}")
               br
-              div#twitter-share.btn #[i.fa.fa-twitter] Share on Twitter
-              div#poll-remove-btn.btn(ng-click="sharePoll($index)") Remove
+              div#twitter-share.btn(ng-click="sharePoll($index)") #[i.fa.fa-twitter] Share on Twitter
+              div#poll-remove-btn.btn(ng-click="removePoll($index)") Remove
       #footer
           p Graphs powered by #[a(href="https://developers.google.com/chart/?hl=en", target="_blank") Google Charts] 
               
