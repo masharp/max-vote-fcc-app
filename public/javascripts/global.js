@@ -5,17 +5,15 @@
 
     JSON Structure
         POLL = {
-          _id: id,
-          user: user_id,
           name: pollname
           options: [],
           results: []
         }
         USER = {
-          _id: id,
-          name: username,
-          email: userEmail,
-          password: userPassword
+          id: id,
+          name: name,
+          username: username,
+          polls: [poll, poll, poll]
         }
 */
 
@@ -24,17 +22,15 @@
   var app = angular.module("votingApp", ["ngCookies"]);
 
   /*--------------- NavBar controller --------------------------- */
-  app.controller("NavController", ["$scope", "$cookies", function($scope, $cookies) {
+  app.controller("NavController", ["$scope", "$cookies", "$http", function($scope, $cookies, $http) {
     /* Manage a browser cookie to control cross-page navbar highlighting */
     $scope.cookie = $cookies.getObject("max-vote");
 
     if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
 
-    $scope.user = user ? user : null;
-    
-    if($scope.user) {
-      console.log($scope.user);
+    $scope.user = user;
 
+    if($scope.user) {
       $scope.data = {
         authUser: true,
         username: $scope.user.username
@@ -68,11 +64,16 @@
           $cookies.put("max-vote", "2");
           window.location.href = "/login";
           break;
-        case 4:
-          $cookies.put("max-vote", "0");
-          window.location.href = "/";
-          break;
       }
+    }
+
+    $scope.logout = function() {
+      $http.get("/logout").then(function() {
+        $scope.data.authUser = false;
+        $scope.data.username = "";
+
+        window.location.href = "/";
+      });
     }
   }]);
 
@@ -108,15 +109,15 @@
   }]);
 
   /* ------------------- Dashboard page controller ------------------*/
-  app.controller("DashController", ["$scope", "$cookies", function($scope, $cookies) {
+  app.controller("DashController", ["$scope", "$cookies","$http", function($scope, $cookies, $http) {
     $cookies.remove("max-vote");
     $scope.panel = 0;
     $scope.selectedPoll = -1;
 
     $scope.user = user;
-    console.log($scope.user);
 
     $scope.newPoll = {
+      user: $scope.user.username,
       name: "",
       options: []
     };
@@ -144,6 +145,7 @@
         $scope.newPoll.options.push(optionText);
       });
 
+      $http.post("/dashboard", $scope.newPoll);
       //reset the newPoll options
       $scope.newPoll.options = [];
     };
@@ -192,8 +194,6 @@
     $(document).on("click", "#poll-remove-btn", function(event) {
       $(this).parent().parent().remove();
       $(this).next().remove();
-
-      console.log("boo");
     });
 
   }]);

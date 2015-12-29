@@ -1,7 +1,10 @@
 extends layout  
 
 block content
-  #login-page(ng-controller="LoginController")  
+  script(type="text/javascript").
+    var user = !{JSON.stringify(currentUser)}
+    
+  #login-page(ng-controller="LoginController")
     #dashboard
       #dashboard-home
         h1 MaxVote

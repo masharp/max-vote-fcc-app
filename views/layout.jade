@@ -12,8 +12,6 @@ html(ng-app="votingApp")
     script(src="/javascripts/global.js")
     
     link(rel="stylesheet", href="/stylesheets/style.css")
-    script(type="text/javascript").
-      var user = !{JSON.stringify(currentUser)}
     
   body
     #main-ctrl(ng-controller="NavController", ng-init="user= #{JSON.stringify(currentUser)}")
@@ -32,7 +30,7 @@ html(ng-app="votingApp")
               li
                 a#welcome-nav(ng-show="data.authUser") Hello, {{data.username}}
               li
-                a#logout-btn(href, ng-show="data.authUser", ng-click="changePage(4)") Log Out
+                a#logout-btn(href, ng-show="data.authUser", ng-click="logout()") Log Out
               li
     
     block content

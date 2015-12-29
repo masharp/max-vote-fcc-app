@@ -18,9 +18,53 @@ passport.use(new TwitterStrategy({
   consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
   callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
   },
+
+  /* authentication success callback that checks if a new database entry is necessary */
   function(token, tokenScret, profile, callback) {
-    return callback(null, profile);
-}));
+    var userData = [];
+    var validUser = true;
+
+    mongoDb.open(function(error, db) {
+      var newUser = parseUserData(profile);
+      newUser.polls = [];
+      console.log(newUser);
+
+      db.collection("users", function(error, collection) {
+        if(error) { console.log("Collection error: " + error); }
+        else {
+
+          collection.find({}, function(error, documents) {
+            documents.each(function(error, item) {
+
+              // if the documents are done being processed, initiate validation and DB insertion
+              if(error || !item) {
+                userData.forEach(function(user) {
+                  if(user.username === newUser.username) {
+                    validUser = false;
+                    db.close();
+                    return callback(null, profile);
+                  }
+                });
+
+                if(validUser) {
+                  collection.save(newUser, function(error, result) {
+                    if(error) { console.log("Insertion error: " + error); }
+                    else {
+                      db.close();
+                      return callback(null, profile);
+                    }
+                  });
+                }
+              }
+              //if a document in the query cursor still exists, push it to the userData array
+              userData.push(item);
+            });
+          });
+        }
+      });
+    });
+  }
+));
 
 passport.serializeUser(function(user, callback) {
   callback(null, user);
@@ -69,20 +113,34 @@ app.use(passport.session());
 /* GET home page. */
 router.get("/", function(request, response, next) {
   //var sessionData = request.session;
-  response.render("home", { title: "MaxVote | A simple live-polling resource", currentUser: request.user });
+
+  var currentUser = parseUserData(request.user);
+
+  response.render("home", { title: "MaxVote | A simple live-polling resource", currentUser: currentUser });
 });
 
 /* GET signup page. */
 router.get("/signup", function(request, response, next) {
   //var sessionData = request.session;
 
-  response.render("signup", { title: "MaxVote | Sign Up", currentUser: request.user});
+  var currentUser = parseUserData(request.user);
+
+  response.render("signup", { title: "MaxVote | Sign Up", currentUser: currentUser });
+});
+
+router.get("/logout", function(request, response, next) {
+  request.logout();
+  request.session.destroy(function(error) {
+    response.redirect("/");
+  });
 });
 
 /* GET login page. */
 router.get("/login", function(request, response, next) {
   //var sessionData = request.session;
-  response.render("login", { title: "MaxVote | Log in", currentUser: request.user });
+  var currentUser = parseUserData(request.user);
+
+  response.render("login", { title: "MaxVote | Log in", currentUser: currentUser });
 });
 
 /* GET Twitter Authentication */
@@ -91,34 +149,29 @@ router.get("/auth/twitter/callback", passport.authenticate("twitter",
   {
     successReturnToOrRedirect: "/dashboard",
     failureRedirect: "/login"
-  }))
+  })
+);
 
 /* GET dashboard page. */
 router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request, response, next) {
   //var sessionData = request.session;
 
+  var currentUser = parseUserData(request.user);
+
   mongoDb.open(function(error, db) {
     if(error) { console.log("Error opening db: "  + error); }
 
-    db.collection("polls", function(error, collection) {
+    db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
       else {
         var pollData = [];
-        var currentUser = request.user;
-        console.log(currentUser);
 
-        collection.find({}, function(error, documents) {
-          documents.each(function(error, item) {
-            if(error || !item) {
-              db.close();
-              console.log(request.user);
-              response.render("dashboard", {
-                title: "MaxVote | Dashboard",
-                currentUser: request.user,
-                pollData: pollData
-              });
-            }
-            pollData.push(item);
+        collection.find({username: currentUser.username}, function(error, document) {
+          db.close();
+          response.render("dashboard", {
+            title: "MaxVote | Dashboard",
+            currentUser: currentUser,
+            pollData: document.polls
           });
         });
       }
@@ -126,14 +179,22 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request,
   });
 });
 
+/*POST dashboard for new poll saving */
+router.post("/dashboard", function(request, response, next) {
+  var newPoll = request.body;
+  var currentUser = parseUserData(request.user);
+
+  console.log(newPoll.name + " " + currentUser.username);
+});
+
 /* HTTP page routing */
 app.use("/", router);
 app.use("/signup", router);
 app.use("/login", router);
+app.use("/logout", router);
 app.use("/auth/local", router);
 app.use("/auth/twitter", router);
 app.use("/dashboard", router);
-app.use("/dashboard/data", router);
 
 /* Catch 404 error and forward to error handler */
 app.use(function(request, response, next) {
@@ -165,6 +226,19 @@ app.use(function(error, request, response, next) {
     error: {}
   });
 });
+
+/* Function to parse Passport-Twitter user data for necessary information */
+function parseUserData(userObj) {
+  if (!userObj) return null;
+
+  var newUser = {
+    id: userObj.id,
+    name: userObj.displayName,
+    username: userObj.username
+  }
+
+  return newUser;
+}
 
 module.exports = app;
 

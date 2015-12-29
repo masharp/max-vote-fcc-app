@@ -2,8 +2,7 @@ extends layout
 
 block content
   script(type="text/javascript").
-    var user = {}
-    user = !{JSON.stringify(currentUser)}
+    var user = !{JSON.stringify(currentUser)}
     
   #home-page(ng-controller="HomeController")
     #dashboard

@@ -1,6 +1,9 @@
 extends layout
 
 block content
+  script(type="text/javascript").
+    var user = !{JSON.stringify(currentUser)}
+    
   #signup-page(ng-controller="SignupController")
     #dashboard
       #dashboard-home
