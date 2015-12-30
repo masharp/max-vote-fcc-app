@@ -207,4 +207,32 @@
 
     };
   }]);
+
+  /* ------------------ Voting page controller ------------------ */
+  app.controller("VoteController", ["$scope", "$http", function($scope, $http) {
+    $scope.panel = 0;
+    $scope.pollData = pollData;
+    $scope.username = username;
+
+    $scope.vote = function() {
+      var vote = {
+        username: $scope.username,
+        choice: $("input[name=poll]").filter(":checked").val()
+      }
+
+      $http.post("/vote", vote).then(function successCallback(response) {
+        $scope.selectPanel(1);
+      });
+    };
+
+    /* Angular Panel Control Functions */
+    $scope.selectPanel =  function(panel) {
+      $scope.panel = panel;
+    };
+    $scope.isSelected = function(panel) {
+      return $scope.panel === panel;
+    };
+    /* ------ */
+
+  }]);
 })();

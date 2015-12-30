@@ -73,10 +73,13 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Finished Twitter login persistence, user database creation, and one-to-many mongo scheme
   * Fixed server to client data transmission for user and poll information
 
+###Dec. 29, 2015
+  * Finished saving and deleting poll POSTS
+  * Finished dynamic routing for unauthenticated voting on polls
+  * Finished the vote view GET poll information based on dynamic route
+
 ##To Do
-  * Save Poll (POST -> query for authenticated user -> append polls -> refresh page)
-  * Remove Poll (POST -> query for authenticated user -> find poll -> pop poll)
+  * Public vote POST (take public choice -> update poll's result array)
   * Tweet poll to user's twitter statuses
-  * Allow unauthorized user to vote on shared poll
   * Heroku nosql database
   * Heroku deployment

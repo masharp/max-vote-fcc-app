@@ -200,3 +200,40 @@ body {
   padding-top: 50px;
   text-align: center;
 }
+
+#vote {
+  #poll {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 7em;
+
+    .public-option {
+      margin: .5em;
+      padding: .3em;
+      border: .1em solid black;
+      width: 100%;
+      display: inline-block;
+
+      input {
+        margin-right: .5em;
+      }
+    }
+
+    #vote-btn {
+      margin: .5em;
+      background-color: green;
+      color: white;
+
+      &:hover {
+        background-color: lighten(green, 5);
+      }
+    }
+  }
+  #success {
+    text-align: center;
+
+    h1 {
+      color: green;
+    }
+  }
+}

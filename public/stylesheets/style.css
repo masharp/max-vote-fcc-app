@@ -140,4 +140,27 @@ body {
   padding-top: 50px;
   text-align: center; }
 
+#vote #poll {
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 7em; }
+  #vote #poll .public-option {
+    margin: .5em;
+    padding: .3em;
+    border: .1em solid black;
+    width: 100%;
+    display: inline-block; }
+    #vote #poll .public-option input {
+      margin-right: .5em; }
+  #vote #poll #vote-btn {
+    margin: .5em;
+    background-color: green;
+    color: white; }
+    #vote #poll #vote-btn:hover {
+      background-color: #009a00; }
+#vote #success {
+  text-align: center; }
+  #vote #success h1 {
+    color: green; }
+
 /*# sourceMappingURL=style.css.map */

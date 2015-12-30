@@ -198,8 +198,6 @@ router.post("/dashboard/remove", function(request, response, next) {
   var poll = request.body.name;
   var currentUser = parseUserData(request.user);
 
-  console.log(poll);
-
   mongoDb.open(function(error, db) {
     db.collection("users", function(error, collection) {
       if(error) { console.error("Collection error: " + error); }
@@ -215,6 +213,41 @@ router.post("/dashboard/remove", function(request, response, next) {
   });
 });
 
+/* GET dynamic route for public poll voting */
+router.get("/:dynamuser/:dynampoll", function(request, response, next) {
+  var requestUsername = request.params.dynamuser;
+  var requestPoll = request.params.dynampoll;
+
+  mongoDb.open(function(error, db) {
+    if(error) { console.log("Error opening db: "  + error); }
+
+    db.collection("users", function(error, collection) {
+      if(error) { console.log("Collection error: " + error); }
+      else {
+        collection.findOne({ username: requestUsername }, function(error, document) {
+          db.close();
+
+          //filter the user's polls for the requested poll
+          var poll = document.polls.filter(function(poll) {
+            return (poll.name === requestPoll) || (poll.name === requestPoll + "?");
+          });
+
+          response.render("vote", {
+            title: "MaxVote | Public Poll",
+            poll: poll[0],
+            user: requestUsername
+          });
+        });
+      }
+    });
+  });
+});
+
+/* POST data from a public vote*/
+router.post("/vote", function(request, response, next) {
+  console.log(request.body.username + " " + request.body.choice);
+});
+
 /* HTTP page routing */
 app.use("/", router);
 app.use("/signup", router);
@@ -225,6 +258,8 @@ app.use("/auth/twitter", router);
 app.use("/dashboard", router);
 app.use("/dashboard/add", router);
 app.use("/dashboard/remove", router);
+app.use("/:dynamuser/:dynampoll", router);
+app.use("/vote", router);
 
 /* Catch 404 error and forward to error handler */
 app.use(function(request, response, next) {

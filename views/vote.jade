@@ -1,0 +1,39 @@
+html(ng-app="votingApp")
+  head
+    title= title
+    
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
+
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-cookies.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+    
+    script(src="/javascripts/global.js")
+    link(rel="stylesheet", href="/stylesheets/style.css")
+    
+    script(type="text/javascript").
+      var pollData = !{JSON.stringify(poll)}
+      var username = !{JSON.stringify(user)}
+
+  body
+    #vote(ng-controller="VoteController")
+      #dashboard
+        #dashboard-home
+          h1 MaxVote
+          p Vote on your friend's poll!
+      #poll(ng-show="isSelected(0)")
+        div.row
+          div.col-md-4
+            h1 {{pollData.name}}
+            h3 by {{username}}
+          div.col-md-6
+            label.public-option(ng-repeat="option in pollData.options", for="option-{{option}}")
+              input.option(id="option-{{option}}", type="radio", name="poll", value="{{option}}", text="{{option}}" checked)
+              {{option}}
+            #vote-btn.btn(ng-click="vote()") Vote
+      #success(ng-hide="isSelected(0)")
+        h1 Success!
+        h3 Thank you for voting!
+    
+    
