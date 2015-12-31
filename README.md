@@ -79,7 +79,10 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Finished the vote view GET poll information based on dynamic route
 
 ##To Do
-  * Public vote POST (take public choice -> update poll's result array)
+  * Refract mongoDB Schema for insertion and updating
+    * results: [ {name: foo, value: 0}, {name: bar, value: 0}]
+    * update({username: usernameRequest, "results.name": pollName}, {$inc: { "results.$.value" : voteChoice}})
+    * Fix each mongoDb request to reflect new schema
   * Tweet poll to user's twitter statuses
   * Heroku nosql database
   * Heroku deployment

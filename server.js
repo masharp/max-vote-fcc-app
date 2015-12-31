@@ -179,8 +179,6 @@ router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(req
   var newResults = request.body.results;
   var currentUser = parseUserData(request.user);
 
-  console.log(newPoll.name + " " + newPoll.options + "\n" + newResults.name);
-
   mongoDb.open(function(error, db) {
     db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
@@ -207,7 +205,8 @@ router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(
       else {
         collection.update(
           { username: currentUser.username },
-          { $pull: { polls: { name: poll } } }
+          { $pull: { polls: { name: poll } },
+            $pull: { results: { name: poll } } }
         );
         db.close();
         response.end();
@@ -232,13 +231,22 @@ router.get("/:dynamuser/:dynampoll", function(request, response, next) {
           if(document) {
             db.close();
 
-            //filter the user's polls for the requested poll
-            var poll = document.polls.filter(function(poll) {
+            //filter the user's polls for the requested poll and poll values
+            var pollOptions = document.polls.filter(function(poll) {
               return(poll.name === requestPoll) || (poll.name === requestPoll + "?");
             });
 
+            var pollResults = document.results.filter(function(result) {
+              return(result.name === requestPoll) || (result.name === requestPoll + "?");
+            });
+
+            var poll = {
+              poll: pollOptions[0],
+              results: pollResults[0]
+            }
+
             if(poll.length != 0) {
-              response.render("vote", { title: "MaxVote | Public Poll", poll: poll[0], user: requestUsername });
+              response.render("vote", { title: "MaxVote | Public Poll", poll: poll, user: requestUsername });
             } else {
               response.status(404);
               response.render("error", { message: "Page Not Found.", error: {} });
@@ -266,8 +274,8 @@ router.post("/vote", function(request, response, next) {
       if(error) { console.error("Collection error: " + error); }
       else {
         collection.update(
-          { username: username, "polls.name" : pollName },
-          { $inc: { "polls.$.results.$$choice" : 1 } },
+          { username: username, "results.name" : pollName },
+          { $inc: { "results.$.${choice}" : 1 } },
           false,
           true );
         db.close();
