@@ -174,9 +174,12 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request,
 });
 
 /*POST dashboard for new poll saving */
-router.post("/dashboard/add", function(request, response, next) {
-  var newPoll = request.body;
+router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(request, response, next) {
+  var newPoll = request.body.poll;
+  var newResults = request.body.results;
   var currentUser = parseUserData(request.user);
+
+  console.log(newPoll.name + " " + newPoll.options + "\n" + newResults.name);
 
   mongoDb.open(function(error, db) {
     db.collection("users", function(error, collection) {
@@ -184,7 +187,7 @@ router.post("/dashboard/add", function(request, response, next) {
       else {
         collection.update(
           { username: currentUser.username },
-          { $push: { polls: newPoll } }
+          { $push: { polls: newPoll, results: newResults } }
         );
         db.close();
         response.end();
@@ -194,7 +197,7 @@ router.post("/dashboard/add", function(request, response, next) {
 });
 
 /*POST dashboard for removing a poll  */
-router.post("/dashboard/remove", function(request, response, next) {
+router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(request, response, next) {
   var poll = request.body.name;
   var currentUser = parseUserData(request.user);
 
@@ -225,18 +228,27 @@ router.get("/:dynamuser/:dynampoll", function(request, response, next) {
       if(error) { console.log("Collection error: " + error); }
       else {
         collection.findOne({ username: requestUsername }, function(error, document) {
-          db.close();
+          if(error) { console.error("Collection error: " + error); }
+          if(document) {
+            db.close();
 
-          //filter the user's polls for the requested poll
-          var poll = document.polls.filter(function(poll) {
-            return (poll.name === requestPoll) || (poll.name === requestPoll + "?");
-          });
+            //filter the user's polls for the requested poll
+            var poll = document.polls.filter(function(poll) {
+              return(poll.name === requestPoll) || (poll.name === requestPoll + "?");
+            });
 
-          response.render("vote", {
-            title: "MaxVote | Public Poll",
-            poll: poll[0],
-            user: requestUsername
-          });
+            if(poll.length != 0) {
+              response.render("vote", { title: "MaxVote | Public Poll", poll: poll[0], user: requestUsername });
+            } else {
+              response.status(404);
+              response.render("error", { message: "Page Not Found.", error: {} });
+            }
+          } else {
+            db.close();
+            response.status(404);
+            response.render("error", { message: "Page Not Found.", error: {} });
+          }
+
         });
       }
     });
@@ -245,7 +257,24 @@ router.get("/:dynamuser/:dynampoll", function(request, response, next) {
 
 /* POST data from a public vote*/
 router.post("/vote", function(request, response, next) {
-  console.log(request.body.username + " " + request.body.choice);
+  var username = request.body.username;
+  var pollName = request.body.pollName;
+  var choice = request.body.choice;
+
+  mongoDb.open(function(error, db) {
+    db.collection("users", function(error, collection) {
+      if(error) { console.error("Collection error: " + error); }
+      else {
+        collection.update(
+          { username: username, "polls.name" : pollName },
+          { $inc: { "polls.$.results.$$choice" : 1 } },
+          false,
+          true );
+        db.close();
+        response.end();
+      }
+    });
+  });
 });
 
 /* HTTP page routing */

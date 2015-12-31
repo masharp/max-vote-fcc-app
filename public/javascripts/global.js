@@ -115,12 +115,18 @@
     $scope.selectedPoll = -1;
 
     $scope.user = user;
+    $scope.pollName = "";
 
     $scope.newPoll = {
-      user: $scope.user.username,
-      name: "",
-      options: [],
-      results: []
+      poll: {
+        user: $scope.user.username,
+        name: "",
+        options: []
+      },
+      results: {
+        name: "",
+        values: []
+      }
     };
 
     /* Angular Panel Control Functions */
@@ -154,16 +160,20 @@
         - takes the poll and POSTS it to the server to be saved */
     $scope.savePoll = function() {
       //reset the newPoll options
-      $scope.newPoll.options = [];
+      $scope.newPoll.poll.options = [];
+      $scope.newLink = "";
+      $scope.newPoll.poll.name = $scope.pollName;
+      $scope.newPoll.results.name = $scope.pollName;
 
       $(".poll-option").each(function() {
         var optionText = $(this).val();
-        $scope.newPoll.options.push(optionText);
-        $scope.newPoll.results.push(0);
+        $scope.newPoll.poll.options.push(optionText);
+        $scope.newPoll.results.values.push(0);
       });
 
       $http.post("/dashboard/add", $scope.newPoll).then(function successCallback(response) {
-        window.location.href = "/dashboard";
+        $scope.newLink = "localhost:3000/" + $scope.user.username + "/" + $scope.pollName;
+        $scope.selectPanel(2);
       });
     };
 
@@ -213,11 +223,13 @@
     $scope.panel = 0;
     $scope.pollData = pollData;
     $scope.username = username;
+    $scope.choiceIndex = 0;
 
     $scope.vote = function() {
       var vote = {
         username: $scope.username,
-        choice: $("input[name=poll]").filter(":checked").val()
+        pollName: $scope.pollData.name,
+        choice: $scope.choiceIndex
       }
 
       $http.post("/vote", vote).then(function successCallback(response) {

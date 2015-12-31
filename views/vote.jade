@@ -28,8 +28,8 @@ html(ng-app="votingApp")
             h1 {{pollData.name}}
             h3 by {{username}}
           div.col-md-6
-            label.public-option(ng-repeat="option in pollData.options", for="option-{{option}}")
-              input.option(id="option-{{option}}", type="radio", name="poll", value="{{option}}", text="{{option}}" checked)
+            label.public-option(ng-repeat="option in pollData.options track by $index", for="option-{{option}}")
+              input.option(id="option-{{option}}", type="radio", name="poll", ng-value="$index", ng-model="$parent.choiceIndex", checked)
               {{option}}
             #vote-btn.btn(ng-click="vote()") Vote
       #success(ng-hide="isSelected(0)")

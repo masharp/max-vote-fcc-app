@@ -195,6 +195,15 @@ body {
       }
     }
   }
+  #body-success {
+    h1 {
+      color: green;
+    }
+    p {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+  }
 }
 #footer {
   padding-top: 50px;

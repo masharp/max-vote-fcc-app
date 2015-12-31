@@ -135,6 +135,11 @@ body {
       #body-dash #body-mypolls #mypolls-polls .saved-poll:hover {
         box-shadow: 5px 5px 10px #000;
         cursor: pointer; }
+  #body-dash #body-success h1 {
+    color: green; }
+  #body-dash #body-success p {
+    font-size: 1.8em;
+    font-weight: bold; }
 
 #footer {
   padding-top: 50px;
