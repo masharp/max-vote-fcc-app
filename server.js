@@ -175,8 +175,7 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request,
 
 /*POST dashboard for new poll saving */
 router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(request, response, next) {
-  var newPoll = request.body.poll;
-  var newResults = request.body.results;
+  var newPoll = request.body;
   var currentUser = parseUserData(request.user);
 
   mongoDb.open(function(error, db) {
@@ -185,7 +184,7 @@ router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(req
       else {
         collection.update(
           { username: currentUser.username },
-          { $push: { polls: newPoll, results: newResults } }
+          { $push: { polls: { $each: newPoll } } }
         );
         db.close();
         response.end();
@@ -205,8 +204,8 @@ router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(
       else {
         collection.update(
           { username: currentUser.username },
-          { $pull: { polls: { name: poll } },
-            $pull: { results: { name: poll } } }
+          { $pull: { polls: { name: poll } } },
+          { multi: true }
         );
         db.close();
         response.end();
@@ -219,6 +218,7 @@ router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(
 router.get("/:dynamuser/:dynampoll", function(request, response, next) {
   var requestUsername = request.params.dynamuser;
   var requestPoll = request.params.dynampoll;
+  console.log(requestPoll);
 
   mongoDb.open(function(error, db) {
     if(error) { console.log("Error opening db: "  + error); }
@@ -231,22 +231,21 @@ router.get("/:dynamuser/:dynampoll", function(request, response, next) {
           if(document) {
             db.close();
 
-            //filter the user's polls for the requested poll and poll values
-            var pollOptions = document.polls.filter(function(poll) {
-              return(poll.name === requestPoll) || (poll.name === requestPoll + "?");
+            var pollData = {
+              name: requestPoll,
+              options: []
+            };
+
+            /* Filter the document polls for the required poll options, then add to scope variable */
+            document.polls.forEach(function(poll) {
+              if(poll.name === requestPoll || poll.name === requestPoll + "?") {
+                pollData.options.push({name: poll.option});
+              }
             });
 
-            var pollResults = document.results.filter(function(result) {
-              return(result.name === requestPoll) || (result.name === requestPoll + "?");
-            });
-
-            var poll = {
-              poll: pollOptions[0],
-              results: pollResults[0]
-            }
-
-            if(poll.length != 0) {
-              response.render("vote", { title: "MaxVote | Public Poll", poll: poll, user: requestUsername });
+            /* If there is poll data, render the page with the data. If not, bad url - page not found */
+            if(pollData.length != 0) {
+              response.render("vote", { title: "MaxVote | Public Poll", poll: pollData, user: requestUsername });
             } else {
               response.status(404);
               response.render("error", { message: "Page Not Found.", error: {} });
@@ -266,7 +265,7 @@ router.get("/:dynamuser/:dynampoll", function(request, response, next) {
 /* POST data from a public vote*/
 router.post("/vote", function(request, response, next) {
   var username = request.body.username;
-  var pollName = request.body.pollName;
+  var pollName = request.body.pollName + "?";
   var choice = request.body.choice;
 
   mongoDb.open(function(error, db) {
@@ -274,8 +273,8 @@ router.post("/vote", function(request, response, next) {
       if(error) { console.error("Collection error: " + error); }
       else {
         collection.update(
-          { username: username, "results.name" : pollName },
-          { $inc: { "results.$.${choice}" : 1 } },
+          { username: username, "polls.name" : pollName, "polls.option" : choice },
+          { $inc: { "polls.$.value" : 1 } },
           false,
           true );
         db.close();

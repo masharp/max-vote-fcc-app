@@ -146,7 +146,7 @@ body {
         margin: 0 auto;
 
       h3 {
-        font-size: 1.3em;
+        font-size: 1.4em;
         padding-left: 10px;
         padding-right: 10px;
       }
@@ -160,6 +160,10 @@ body {
         .result {
           text-align: center;
           padding-left: 20px;
+        }
+        .url {
+          color: lighten(blue, 15);
+          font-size: .8em;
         }
         .poll-graph {
           display: inline-block;

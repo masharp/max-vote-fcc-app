@@ -100,7 +100,7 @@ body {
     display: inline-block;
     margin: 0 auto; }
     #body-dash #body-mypolls #mypolls-polls h3 {
-      font-size: 1.3em;
+      font-size: 1.4em;
       padding-left: 10px;
       padding-right: 10px; }
     #body-dash #body-mypolls #mypolls-polls .saved-poll {
@@ -111,6 +111,9 @@ body {
       #body-dash #body-mypolls #mypolls-polls .saved-poll .result {
         text-align: center;
         padding-left: 20px; }
+      #body-dash #body-mypolls #mypolls-polls .saved-poll .url {
+        color: #4d4dff;
+        font-size: .8em; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .poll-graph {
         display: inline-block;
         width: 300px;

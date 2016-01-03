@@ -4,20 +4,17 @@
     can see live results as their friends vote. The results are displayed numerically and in a graph.
 
     JSON Structure
-        POLL = {
-          name: pollname
-          options: [],
-          results: []
-        }
         USER = {
           id: id,
           name: name,
           username: username,
-          polls: [poll, poll, poll]
+          polls: [ {
+            name: pollName,
+            option: pollOption,
+            value: result
+          }],
         }
 */
-
-
 (function() {
   var app = angular.module("votingApp", ["ngCookies"]);
 
@@ -117,18 +114,6 @@
     $scope.user = user;
     $scope.pollName = "";
 
-    $scope.newPoll = {
-      poll: {
-        user: $scope.user.username,
-        name: "",
-        options: []
-      },
-      results: {
-        name: "",
-        values: []
-      }
-    };
-
     /* Angular Panel Control Functions */
     $scope.selectPanel =  function(panel) {
       $scope.panel = panel;
@@ -146,7 +131,7 @@
       $("#newpoll-inputs").append(newOption);
     };
 
-    /*Angular removePoll Control Function
+    /* Angular removePoll Control Function
         - takes the specific poll and POSTS it to the server to be removed */
     $scope.removePoll = function(poll) {
       var currentPoll = $scope.savedPolls[poll];
@@ -159,21 +144,24 @@
     /*Angular savePoll Controll Function
         - takes the poll and POSTS it to the server to be saved */
     $scope.savePoll = function() {
-      //reset the newPoll options
-      $scope.newPoll.poll.options = [];
-      $scope.newLink = "";
-      $scope.newPoll.poll.name = $scope.pollName;
-      $scope.newPoll.results.name = $scope.pollName;
+      var newPoll = [];
 
       $(".poll-option").each(function() {
-        var optionText = $(this).val();
-        $scope.newPoll.poll.options.push(optionText);
-        $scope.newPoll.results.values.push(0);
+        var newOption = {
+          name: $scope.pollName,
+          option: $(this).val(),
+          value: 0
+        };
+        newPoll.push(newOption);
       });
 
-      $http.post("/dashboard/add", $scope.newPoll).then(function successCallback(response) {
+      $http.post("/dashboard/add", newPoll).then(function successCallback(response) {
         $scope.newLink = "localhost:3000/" + $scope.user.username + "/" + $scope.pollName;
         $scope.selectPanel(2);
+
+        setTimeout(function() {
+          window.location.href = "/dashboard";
+        }, 5000);
       });
     };
 
@@ -196,9 +184,9 @@
       var pollData = [["Options", "Results"]]; //begin with the chart titling
 
       //transfer poll data from capture array to full chart array (including chart titling)
-      for(var i = 0; i < currentPoll.options.length; i++) {
-        pollData.push([currentPoll.options[i], Number(currentPoll.results[i])]);
-      };
+      currentPoll.options.forEach(function(option) {
+        pollData.push([option.name, Number(option.value)]);
+      });
 
       function drawChart() {
         var chartData = google.visualization.arrayToDataTable(pollData);
@@ -216,6 +204,45 @@
     $scope.sharePoll = function(poll) {
 
     };
+    /* Function that takes the raw database information and creates a usable array of polls.
+        Begins by filtering unique polls by name and then adding each unique option+result to it's
+        corresponding unique poll. */
+    $scope.filterPollData = function(pollData) {
+      var polls = [];
+
+      //Get unique polls
+      pollData.forEach(function(data) {
+        var found = false;
+        polls.forEach(function(poll) {
+          if(poll.name === data.name) { found = true; return; }
+        });
+        if(!found) {
+          polls.push({ name: data.name, options: [] });
+        }
+      });
+
+      //Get unique options for each poll
+      pollData.forEach(function(data) {
+        var found = false;
+
+        //check if option is found in each poll
+        polls.forEach(function(poll) {
+          poll.options.forEach(function(option) {
+            if(option.name === data.option) { found = true; return; }
+          });
+        });
+
+        if(!found) {
+          polls.forEach(function(poll) {
+            if(poll.name === data.name) {
+              poll.options.push({ name: data.option, value: data.value })
+            }
+          });
+        }
+      });
+
+      return polls;
+    };
   }]);
 
   /* ------------------ Voting page controller ------------------ */
@@ -223,13 +250,12 @@
     $scope.panel = 0;
     $scope.pollData = pollData;
     $scope.username = username;
-    $scope.choiceIndex = 0;
 
     $scope.vote = function() {
       var vote = {
         username: $scope.username,
         pollName: $scope.pollData.name,
-        choice: $scope.choiceIndex
+        choice: $("input[name=poll]:checked").val()
       }
 
       $http.post("/vote", vote).then(function successCallback(response) {
