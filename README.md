@@ -78,11 +78,12 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Finished dynamic routing for unauthenticated voting on polls
   * Finished the vote view GET poll information based on dynamic route
 
+###Jan. 3, 2016
+  * Fixed and finished mongoDB functionality and all server-side routes
+  * Added timeout to post-poll saving that redirects back to dashboard
+  * Added public poll URL to dashboard My Polls
+
 ##To Do
-  * Refract mongoDB Schema for insertion and updating
-    * results: [ {name: foo, value: 0}, {name: bar, value: 0}]
-    * update({username: usernameRequest, "results.name": pollName}, {$inc: { "results.$.value" : voteChoice}})
-    * Fix each mongoDb request to reflect new schema
   * Tweet poll to user's twitter statuses
   * Heroku nosql database
   * Heroku deployment
