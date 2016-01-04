@@ -8,23 +8,30 @@ var bodyParser = require("body-parser");
 var session = require("express-session");
 var dotenv = require("dotenv").load();
 
+/* MongoDB setup */
+var MongoClient = require("mongodb").MongoClient;
+var mongoURL = process.env.MONGOLAB_URI;
+
+/* Passport Authentication Setup */
 var passport = require("passport");
 var TwitterStrategy = require("passport-twitter").Strategy;
 var ensureLogin = require("connect-ensure-login");
 
-/* Passport Authentication Setup */
+/*Passport Twitter Strategy and mongoDB setup */
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_CONSUMER_KEY,
   consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-  callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
+  callbackURL: "http://max-vote.herokuapp.com/auth/twitter/callback"
   },
-
   /* authentication success callback that checks if a new database entry is necessary */
   function(token, tokenScret, profile, callback) {
     var userData = [];
     var validUser = true;
 
-    mongoDb.open(function(error, db) {
+    MongoClient.connect(mongoURL, function(error, db) {
+      if(error) console.error(error);
+
+      //parse the required information from passport and add a polls array to the object
       var newUser = parseUserData(profile);
       newUser.polls = [];
 
@@ -70,14 +77,6 @@ passport.deserializeUser(function(object, callback) {
   callback(null, object)
 });
 
-/* MongoDB setup */
-var MongoClient = require("mongodb").MongoClient;
-var Database = require("mongodb").Db;
-var Server = require("mongodb").Server;
-var MongoStore = require("connect-mongo")(session);
-var url = "mongodb://localhost:27017/max-vote";
-var mongoDb = new Database("max-vote", new Server("localhost", 27017));
-
 /* Express Application */
 var app = express();
 
@@ -106,24 +105,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
 app.use(passport.session());
 
-/* GET home page. */
+/* GET home page and send user data */
 router.get("/", function(request, response, next) {
-  //var sessionData = request.session;
-
   var currentUser = parseUserData(request.user);
-
   response.render("home", { title: "MaxVote | A simple live-polling resource", currentUser: currentUser });
 });
 
-/* GET signup page. */
-router.get("/signup", function(request, response, next) {
-  //var sessionData = request.session;
-
-  var currentUser = parseUserData(request.user);
-
-  response.render("signup", { title: "MaxVote | Sign Up", currentUser: currentUser });
-});
-
+/*GET logout request - ensure passport session is cleared and user redirected */
 router.get("/logout", function(request, response, next) {
   request.logout();
   request.session.destroy(function(error) {
@@ -133,9 +121,7 @@ router.get("/logout", function(request, response, next) {
 
 /* GET login page. */
 router.get("/login", function(request, response, next) {
-  //var sessionData = request.session;
   var currentUser = parseUserData(request.user);
-
   response.render("login", { title: "MaxVote | Log in", currentUser: currentUser });
 });
 
@@ -154,7 +140,7 @@ router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request,
 
   var currentUser = parseUserData(request.user);
 
-  mongoDb.open(function(error, db) {
+  MongoClient.connect(mongoURL, function(error, db) {
     if(error) { console.log("Error opening db: "  + error); }
 
     db.collection("users", function(error, collection) {
@@ -178,7 +164,8 @@ router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(req
   var newPoll = request.body;
   var currentUser = parseUserData(request.user);
 
-  mongoDb.open(function(error, db) {
+  MongoClient.connect(mongoURL, function(error, db) {
+    if(error) { console.error(error); }
     db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
       else {
@@ -193,12 +180,14 @@ router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(req
   });
 });
 
-/*POST dashboard for removing a poll  */
+/*DELETE request from dashboard for removing a poll  */
 router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(request, response, next) {
   var poll = request.body.name;
   var currentUser = parseUserData(request.user);
 
-  mongoDb.open(function(error, db) {
+  MongoClient.connect(mongoURL, function(error, db) {
+    if(error) { console.error(error); }
+
     db.collection("users", function(error, collection) {
       if(error) { console.error("Collection error: " + error); }
       else {
@@ -218,10 +207,9 @@ router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(
 router.get("/:dynamuser/:dynampoll", function(request, response, next) {
   var requestUsername = request.params.dynamuser;
   var requestPoll = request.params.dynampoll;
-  console.log(requestPoll);
 
-  mongoDb.open(function(error, db) {
-    if(error) { console.log("Error opening db: "  + error); }
+  MongoClient.connect(mongoURL, function(error, db) {
+    if(error) { console.error(error); }
 
     db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
@@ -265,15 +253,20 @@ router.get("/:dynamuser/:dynampoll", function(request, response, next) {
 /* POST data from a public vote*/
 router.post("/vote", function(request, response, next) {
   var username = request.body.username;
-  var pollName = request.body.pollName + "?";
+  var pollName = request.body.pollName;
   var choice = request.body.choice;
 
-  mongoDb.open(function(error, db) {
+  MongoClient.connect(mongoURL, function(error, db) {
+    if(error) { console.error(error); }
+
     db.collection("users", function(error, collection) {
       if(error) { console.error("Collection error: " + error); }
       else {
+        /* find the matching poll by searching the username, poll choice, and poll name
+            by taking into consideration the posibility of a ? mark */
         collection.update(
-          { username: username, "polls.name" : pollName, "polls.option" : choice },
+          { username: username, "polls.option" : choice,
+          $or: [ {"polls.name" : pollName }, { "polls.name" : pollName + "?" } ] },
           { $inc: { "polls.$.value" : 1 } },
           false,
           true );
@@ -286,7 +279,6 @@ router.post("/vote", function(request, response, next) {
 
 /* HTTP page routing */
 app.use("/", router);
-app.use("/signup", router);
 app.use("/login", router);
 app.use("/logout", router);
 app.use("/auth/local", router);

@@ -72,10 +72,10 @@ body {
   #twitter-icon {
     color: #55ACEE;
   }
-  #body-signup, #body-login {
+  #body-login {
     text-align: center;
 
-    #twitter-signup, #twitter-login {
+    #twitter-login {
       background-color: #55ACEE;
       color: white;
       margin-top: 1em;
@@ -169,6 +169,11 @@ body {
           display: inline-block;
           width: 300px;
           height: auto;
+        }
+        .poll-msg {
+          font-size: 1.1em;
+          color: red;
+          font-weight: bold;
         }
         #poll-remove-btn {
           background-color: red;

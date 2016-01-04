@@ -49,16 +49,16 @@ body {
     color: green; }
   #body #twitter-icon, #body-dash #twitter-icon {
     color: #55ACEE; }
-  #body #body-signup, #body #body-login, #body-dash #body-signup, #body-dash #body-login {
+  #body #body-login, #body-dash #body-login {
     text-align: center; }
-    #body #body-signup #twitter-signup, #body #body-signup #twitter-login, #body #body-login #twitter-signup, #body #body-login #twitter-login, #body-dash #body-signup #twitter-signup, #body-dash #body-signup #twitter-login, #body-dash #body-login #twitter-signup, #body-dash #body-login #twitter-login {
+    #body #body-login #twitter-login, #body-dash #body-login #twitter-login {
       background-color: #55ACEE;
       color: white;
       margin-top: 1em;
       font-size: 1.2em; }
-      #body #body-signup #twitter-signup i, #body #body-signup #twitter-login i, #body #body-login #twitter-signup i, #body #body-login #twitter-login i, #body-dash #body-signup #twitter-signup i, #body-dash #body-signup #twitter-login i, #body-dash #body-login #twitter-signup i, #body-dash #body-login #twitter-login i {
+      #body #body-login #twitter-login i, #body-dash #body-login #twitter-login i {
         font-size: 1.1em; }
-      #body #body-signup #twitter-signup:hover, #body #body-signup #twitter-login:hover, #body #body-login #twitter-signup:hover, #body #body-login #twitter-login:hover, #body-dash #body-signup #twitter-signup:hover, #body-dash #body-signup #twitter-login:hover, #body-dash #body-login #twitter-signup:hover, #body-dash #body-login #twitter-login:hover {
+      #body #body-login #twitter-login:hover, #body-dash #body-login #twitter-login:hover {
         background-color: #2795e9; }
 
 #body-dash {
@@ -118,6 +118,10 @@ body {
         display: inline-block;
         width: 300px;
         height: auto; }
+      #body-dash #body-mypolls #mypolls-polls .saved-poll .poll-msg {
+        font-size: 1.1em;
+        color: red;
+        font-weight: bold; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll #poll-remove-btn {
         background-color: red;
         color: white;

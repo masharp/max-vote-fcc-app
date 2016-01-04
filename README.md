@@ -83,7 +83,9 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
   * Added timeout to post-poll saving that redirects back to dashboard
   * Added public poll URL to dashboard My Polls
 
+###Jan. 4, 2016
+  * Added Twitter status tweeting of specific polls
+
 ##To Do
-  * Tweet poll to user's twitter statuses
   * Heroku nosql database
   * Heroku deployment

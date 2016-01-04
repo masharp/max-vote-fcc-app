@@ -84,16 +84,6 @@
     });
   }]);
 
-  /*---------------- Signup page controller ------------------------ */
-  app.controller("SignupController", ["$scope", "$cookies", function($scope, $cookies) {
-    $cookies.remove("max-vote");
-    $(".fail-label").hide();
-
-    $scope.signupTwitter = function() {
-      window.location.href="http://127.0.0.1:3000/auth/twitter";
-    };
-  }]);
-
   /* ------------------ Login page controller ------------------ */
   app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
@@ -101,7 +91,7 @@
 
     /* Make a POST request to trigger server-side Passport authentication strategy */
     $scope.authenticateUserTwitter = function() {
-      window.location.href="http://127.0.0.1:3000/auth/twitter";
+      window.location.href="http://max-vote.herokuapp.com/auth/twitter";
     };
   }]);
 
@@ -178,30 +168,51 @@
 
     /* Angular MyPolls Control Functions */
     $scope.selectPoll = function(poll) {
+      //reset poll-msg
+      $("#poll-msg-" + poll).empty();
+
       google.load("visualization", "1", {"packages":["corechart"], "callback": drawChart});
 
       var currentPoll = $scope.savedPolls[poll]; //capture the current poll object from Angular scope
       var pollData = [["Options", "Results"]]; //begin with the chart titling
 
+      //variable to check if there has been no voting on the poll
+      var isEmpty = 0;
+
       //transfer poll data from capture array to full chart array (including chart titling)
       currentPoll.options.forEach(function(option) {
+        if(option.value === 0) { isEmpty++; }
         pollData.push([option.name, Number(option.value)]);
       });
 
-      function drawChart() {
-        var chartData = google.visualization.arrayToDataTable(pollData);
-
-        var chart = new google.visualization.PieChart(document.getElementById("poll-" + poll));
-        chart.draw(chartData);
-      };
-
       $scope.selectedPoll =  poll; // display the poll via Angular
+
+      /* If there have been no votes, display message and hide graph div.
+        Otherwise - initiate google draw function for the pie chart */
+      if(isEmpty === currentPoll.options.length) {
+        $("#poll-" + poll).hide();
+        $("#poll-msg-" + poll).append("No Votes Yet");
+      } else {
+        $("#poll-msg-" + poll).hide();
+
+        function drawChart() {
+          var chartData = google.visualization.arrayToDataTable(pollData);
+
+          var chart = new google.visualization.PieChart(document.getElementById("poll-" + poll));
+          chart.draw(chartData);
+        };
+      }
     };
 
     $scope.pollSelected = function(poll) {
       return $scope.selectedPoll === poll;
     };
     $scope.sharePoll = function(poll) {
+      var tweetText = "Vote on my latest poll with Max-Vote!\n" + $scope.savedPolls[poll].name +
+      "\nhttp://max-vote.herokuapp.com/" + $scope.user.username + "/" + $scope.savedPolls[poll].name;
+      var tweetLink = "http://twitter.com/home?status=" + encodeURIComponent(tweetText);
+
+      window.open(tweetLink, "_blank");
 
     };
     /* Function that takes the raw database information and creates a usable array of polls.

@@ -23,10 +23,8 @@ html(ng-app="votingApp")
               li(ng-class="{active: cookie == 0 || cookie == 5}")
                   a#home-btn(href, ng-click="changePage(0)") Home
             ul.nav.navbar-nav.navbar-right
-              li(ng-class="{active: cookie == 1}")
-                a#signup-btn(href, ng-show="!data.authUser", ng-click="changePage(1)") Sign Up
               li(ng-class="{active: cookie == 2}")
-                a#login-btn(href, ng-show="!data.authUser", ng-click="changePage(2)") Log In
+                a#login-btn(href, ng-show="!data.authUser", ng-click="changePage(2)") Sign Up / Login
               li
                 a#welcome-nav(ng-show="data.authUser") Hello, {{data.username}}
               li
