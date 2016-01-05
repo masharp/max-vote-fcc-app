@@ -22,7 +22,6 @@
     "passport-twitter": "latest",
     "serve-favicon": "~2.3.0",
     "dotenv": "latest",
-    "twitter": "latest",
     "connect-ensure-login": "latest"
   }
 }
