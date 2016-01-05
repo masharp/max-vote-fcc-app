@@ -26,7 +26,7 @@
     if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
 
     $scope.user = user;
-
+    console.log($scope.user);
     if($scope.user) {
       $scope.data = {
         authUser: true,
@@ -53,10 +53,6 @@
             window.location.href = "/dashboard";
             break;
           }
-        case 1:
-          $cookies.put("max-vote", "1");
-          window.location.href = "/signup";
-          break;
         case 2:
           $cookies.put("max-vote", "2");
           window.location.href = "/login";
@@ -79,8 +75,8 @@
     $cookies.remove("max-vote");
 
     $("#dashboard-signup").click(function() {
-      $cookies.put("max-vote", "1");
-      window.location.href = "/signup";
+      $cookies.put("max-vote", "2");
+      window.location.href = "/login";
     });
   }]);
 
@@ -151,7 +147,7 @@
 
         setTimeout(function() {
           window.location.href = "/dashboard";
-        }, 5000);
+        }, 3000);
       });
     };
 
