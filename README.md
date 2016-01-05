@@ -1,6 +1,8 @@
 #MaxVote
 This web application is my recreation of https://votingapp.herokuapp.com/, while following
-the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
+the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application. The major
+functionality is implemented. However, corner-cases, small bugs, and mobile optimization are
+all things I'd like to finish ASAP.
 
 ###Tools
   * AngularJS
@@ -85,7 +87,5 @@ the FreeCodeCamp curriculum. It is a multi-page AngularJS-based web application.
 
 ###Jan. 4, 2016
   * Added Twitter status tweeting of specific polls
-
-##To Do
-  * Heroku nosql database
-  * Heroku deployment
+  * Added MongoLab Heroku functionality
+  * Deployed to Heroku
