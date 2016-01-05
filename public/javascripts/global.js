@@ -60,6 +60,7 @@
       }
     }
 
+    /* Logout function to trigger http request to /logout */
     $scope.logout = function() {
       $http.get("/logout").then(function() {
         $scope.data.authUser = false;
@@ -74,6 +75,7 @@
   app.controller("HomeController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
 
+    /* Controls front page signup button functinality */
     $("#dashboard-signup").click(function() {
       $cookies.put("max-vote", "2");
       window.location.href = "/login";
@@ -83,7 +85,6 @@
   /* ------------------ Login page controller ------------------ */
   app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
     $cookies.remove("max-vote");
-    $("#login-fail").hide();
 
     /* Make a POST request to trigger server-side Passport authentication strategy */
     $scope.authenticateUserTwitter = function() {
@@ -97,6 +98,7 @@
     $scope.panel = 0;
     $scope.selectedPoll = -1;
 
+    //assign front-end user variable to angular scope
     $scope.user = user;
     $scope.pollName = "";
 
@@ -113,6 +115,7 @@
     $scope.addOption = function() {
       $scope.option++;
 
+      //inserts the code for a new option textbox via jquery
       var newOption = "<input class='poll-option' type='text' placeholder='Option'><i class='fa fa-times'></i></br>";
       $("#newpoll-inputs").append(newOption);
     };
@@ -132,6 +135,7 @@
     $scope.savePoll = function() {
       var newPoll = [];
 
+      //extract data from each option textbox via jquery
       $(".poll-option").each(function() {
         var newOption = {
           name: $scope.pollName,
@@ -141,6 +145,7 @@
         newPoll.push(newOption);
       });
 
+      //initiate post request and generate public poll link
       $http.post("/dashboard/add", newPoll).then(function successCallback(response) {
         $scope.newLink = "localhost:3000/" + $scope.user.username + "/" + $scope.pollName;
         $scope.selectPanel(2);
@@ -162,11 +167,14 @@
     });
     /* ------ */
 
-    /* Angular MyPolls Control Functions */
+    /* Angular MyPolls Control Functions
+        - displays the extended poll and initiates googe charts with individual poll
+          data */
     $scope.selectPoll = function(poll) {
       //reset poll-msg
       $("#poll-msg-" + poll).empty();
 
+      //load google charts api
       google.load("visualization", "1", {"packages":["corechart"], "callback": drawChart});
 
       var currentPoll = $scope.savedPolls[poll]; //capture the current poll object from Angular scope
@@ -191,6 +199,7 @@
       } else {
         $("#poll-msg-" + poll).hide();
 
+        //callback function that initiates google piechart with data
         function drawChart() {
           var chartData = google.visualization.arrayToDataTable(pollData);
 
@@ -200,9 +209,12 @@
       }
     };
 
+    //function to display individual poll's extended information
     $scope.pollSelected = function(poll) {
       return $scope.selectedPoll === poll;
     };
+
+    //function that generates custom Twitter status update and then sends the user to twitter to confirm
     $scope.sharePoll = function(poll) {
       var tweetText = "Vote on my latest poll with Max-Vote!\n" + $scope.savedPolls[poll].name +
       "\nhttp://max-vote.herokuapp.com/" + $scope.user.username + "/" + $scope.savedPolls[poll].name;
@@ -247,7 +259,6 @@
           });
         }
       });
-
       return polls;
     };
   }]);
@@ -255,9 +266,12 @@
   /* ------------------ Voting page controller ------------------ */
   app.controller("VoteController", ["$scope", "$http", function($scope, $http) {
     $scope.panel = 0;
+
+    //assign front-end variables to angular scope
     $scope.pollData = pollData;
     $scope.username = username;
 
+    /* Angular function that generates the vote data and sends it to the server */
     $scope.vote = function() {
       var vote = {
         username: $scope.username,

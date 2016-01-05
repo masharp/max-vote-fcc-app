@@ -26,7 +26,7 @@ html(ng-app="votingApp")
               li(ng-class="{active: cookie == 2}")
                 a#login-btn(href, ng-show="!data.authUser", ng-click="changePage(2)") Sign Up / Login
               li
-                a#welcome-nav(ng-show="data.authUser") Hello, {{data.username}}
+                a#welcome-nav(ng-show="data.authUser") Hello, {{data.name}}
               li
                 a#logout-btn(href, ng-show="data.authUser", ng-click="logout()") Log Out
               li

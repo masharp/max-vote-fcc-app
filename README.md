@@ -89,3 +89,4 @@ all things I'd like to finish ASAP.
   * Added Twitter status tweeting of specific polls
   * Added MongoLab Heroku functionality
   * Deployed to Heroku
+  * Cleaned and documented javascript

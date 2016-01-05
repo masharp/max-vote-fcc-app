@@ -69,6 +69,7 @@ passport.use(new TwitterStrategy({
   }
 ));
 
+/* Passport functions to serialize/deserialize user across the website via express sessions */
 passport.serializeUser(function(user, callback) {
   callback(null, user);
 });
@@ -89,7 +90,7 @@ app.use(session({
   secret: "m-l-h-93",
   resave: true,
   saveUninitialized: true,
-  cookie: { secure: false, maxAge: 600000 }
+  cookie: { secure: false, maxAge: 900000 }
 }));
 
 /* App Engine setup */
@@ -136,17 +137,16 @@ router.get("/auth/twitter/callback", passport.authenticate("twitter",
 
 /* GET dashboard page. */
 router.get("/dashboard", ensureLogin.ensureLoggedIn("/login"), function(request, response, next) {
-  //var sessionData = request.session;
-
   var currentUser = parseUserData(request.user);
 
+  /* Connect to the database and retrieve the authenticated user's polls */
   MongoClient.connect(mongoURL, function(error, db) {
     if(error) { console.log("Error opening db: "  + error); }
 
     db.collection("users", function(error, collection) {
       if(error) { console.log("Collection error: " + error); }
       else {
-        collection.findOne({username: currentUser.username}, function(error, document) {
+        collection.findOne({ username: currentUser.username }, function(error, document) {
           db.close();
           response.render("dashboard", {
             title: "MaxVote | Dashboard",
@@ -164,6 +164,7 @@ router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(req
   var newPoll = request.body;
   var currentUser = parseUserData(request.user);
 
+  /* Connect to database and use push operation to add poll to the user's polls */
   MongoClient.connect(mongoURL, function(error, db) {
     if(error) { console.error(error); }
     db.collection("users", function(error, collection) {
@@ -180,11 +181,13 @@ router.post("/dashboard/add", ensureLogin.ensureLoggedIn("/login"), function(req
   });
 });
 
-/*DELETE request from dashboard for removing a poll  */
+/* POST request from dashboard for removing a poll */
 router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(request, response, next) {
   var poll = request.body.name;
   var currentUser = parseUserData(request.user);
 
+  /* Connect to the database and use pull operation to remove all entries with the specified
+      poll name */
   MongoClient.connect(mongoURL, function(error, db) {
     if(error) { console.error(error); }
 
@@ -203,7 +206,8 @@ router.post("/dashboard/remove", ensureLogin.ensureLoggedIn("/login"), function(
   });
 });
 
-/* GET dynamic route for public poll voting */
+/* GET dynamic route for public poll voting - uses the username as parent and poll name
+    as child */
 router.get("/:dynamuser/:dynampoll", function(request, response, next) {
   var requestUsername = request.params.dynamuser;
   var requestPoll = request.params.dynampoll;
@@ -289,16 +293,17 @@ app.use("/dashboard/remove", router);
 app.use("/:dynamuser/:dynampoll", router);
 app.use("/vote", router);
 
+/*
+ * Error Handlers
+ */
+
+
 /* Catch 404 error and forward to error handler */
 app.use(function(request, response, next) {
   var error = new Error("Not Found");
   error.status = 404;
   next(error);
 });
-
-/*
- * Error Handlers
- */
 
 /* Development error handler that prints a stack trace */
 if (app.get("env") === "development") {
@@ -320,6 +325,10 @@ app.use(function(error, request, response, next) {
   });
 });
 
+/*
+ * Custom Functions
+ */
+
 /* Function to parse Passport-Twitter user data for necessary information */
 function parseUserData(userObj) {
   if (!userObj) return null;
@@ -329,7 +338,6 @@ function parseUserData(userObj) {
     name: userObj.displayName,
     username: userObj.username
   }
-
   return newUser;
 }
 
