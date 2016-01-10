@@ -26,11 +26,11 @@
     if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
 
     $scope.user = user;
-    console.log($scope.user);
+
     if($scope.user) {
       $scope.data = {
         authUser: true,
-        username: $scope.user.username
+        name: $scope.user.name
       }
     } else {
       $scope.data = {
