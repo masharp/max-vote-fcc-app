@@ -3,6 +3,10 @@ html(ng-app="votingApp")
   head
     title= title
     
+    meta(charset="utf-8")
+    meta(description content="A social polling app.")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
     
@@ -15,20 +19,12 @@ html(ng-app="votingApp")
     
   body
     #main-ctrl(ng-controller="NavController", ng-init="user= #{JSON.stringify(currentUser)}")
-      nav#nav.navbar.navbar-default.navbar-static-top
-        div.container
-            ul.nav.navbar-nav
-              li
-                  a.navbar-brand(href, ng-click="changePage(0)") MaxVote
-              li(ng-class="{active: cookie == 0 || cookie == 5}")
-                  a#home-btn(href, ng-click="changePage(0)") Home
-            ul.nav.navbar-nav.navbar-right
-              li(ng-class="{active: cookie == 2}")
-                a#login-btn(href, ng-show="!data.authUser", ng-click="changePage(2)") Sign Up / Login
-              li
-                a#welcome-nav(ng-show="data.authUser") Hello, {{data.name}}
-              li
-                a#logout-btn(href, ng-show="data.authUser", ng-click="logout()") Log Out
-              li
+      nav#nav
+        #top.container
+          a(href, ng-click="changePage(0)") MaxVote
+          div#home-btn(ng-click="chnagePage(0)") Home
+          div#login-btn.pull-right(ng-show="!data.authUser", ng-click="changePage(2)") Sign In
+          div#welcome-nav.pull-right(ng-show="data.authUser") Hello, {{data.name}}
+          div#logout-btn.pull-right(ng-show="data.authUser", ng-click="logout()")
     
     block content

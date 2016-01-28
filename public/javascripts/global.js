@@ -19,12 +19,7 @@
   var app = angular.module("votingApp", ["ngCookies"]);
 
   /*--------------- NavBar controller --------------------------- */
-  app.controller("NavController", ["$scope", "$cookies", "$http", function($scope, $cookies, $http) {
-    /* Manage a browser cookie to control cross-page navbar highlighting */
-    $scope.cookie = $cookies.getObject("max-vote");
-
-    if($scope.cookie === undefined) { $scope.cookie = 0; $cookies.put("max-vote", "0"); }
-
+  app.controller("NavController", ["$scope", "$http", function($scope, $http) {
     $scope.user = user;
 
     if($scope.user) {
@@ -45,16 +40,13 @@
       switch(page) {
         case 0:
           if(!$scope.data.authUser) {
-            $cookies.put("max-vote", "0");
             window.location.href = "/";
             break;
           } else {
-            $cookies.put("max-vote", "5");
             window.location.href = "/dashboard";
             break;
           }
         case 2:
-          $cookies.put("max-vote", "2");
           window.location.href = "/login";
           break;
       }
@@ -73,19 +65,14 @@
 
   /* ------------------- Home page controller ------------------- */
   app.controller("HomeController", ["$scope", "$cookies", function($scope, $cookies) {
-    $cookies.remove("max-vote");
-
     /* Controls front page signup button functinality */
     $("#dashboard-signup").click(function() {
-      $cookies.put("max-vote", "2");
       window.location.href = "/login";
     });
   }]);
 
   /* ------------------ Login page controller ------------------ */
   app.controller("LoginController", ["$scope", "$cookies", function($scope, $cookies) {
-    $cookies.remove("max-vote");
-
     /* Make a POST request to trigger server-side Passport authentication strategy */
     $scope.authenticateUserTwitter = function() {
       window.location.href="http://max-vote.herokuapp.com/auth/twitter";
@@ -94,7 +81,6 @@
 
   /* ------------------- Dashboard page controller ------------------*/
   app.controller("DashController", ["$scope", "$cookies","$http", function($scope, $cookies, $http) {
-    $cookies.remove("max-vote");
     $scope.panel = 0;
     $scope.selectedPoll = -1;
 

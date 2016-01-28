@@ -1,20 +1,49 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 15px; }
+  font-family: Arial, Helvetica, sans-serif; }
+  @media (max-width: 650px) {
+    body {
+      font-size: 10px; } }
+  @media (min-width: 650px) and (max-width: 900px) {
+    body {
+      font-size: 13px; } }
+  @media (min-width: 900px) {
+    body {
+      font-size: 16px; } }
 
 #nav {
   margin-bottom: 0; }
+  #nav #top {
+    background-color: #f7f7f7;
+    width: 100%;
+    height: 3em;
+    padding: .5em 1em .5em 1em;
+    color: #737373; }
+    #nav #top a {
+      font-size: 1.2em;
+      text-decoration: none;
+      color: #737373;
+      font-weight: bold; }
+    #nav #top #home-btn {
+      display: inline;
+      margin-left: .5em;
+      padding: .5em; }
+      #nav #top #home-btn:hover {
+        cursor: pointer; }
+    #nav #top #login-btn, #nav #top #welcome-btn, #nav #top #logout-btn {
+      padding: .4em; }
+      #nav #top #login-btn:hover, #nav #top #welcome-btn:hover, #nav #top #logout-btn:hover {
+        cursor: pointer; }
 
 #dashboard {
   background-color: #A0785A;
-  padding: 30px;
+  padding: 2em;
   text-align: center;
   color: white;
-  margin-bottom: 20px; }
+  margin-bottom: 1.2em; }
   #dashboard h1 {
     font-size: 4em; }
   #dashboard p {
-    padding-bottom: 15px;
+    padding-bottom: .9em;
     font-size: 1.2em; }
   #dashboard #dashboard-signup {
     background-color: #325B7A;
@@ -26,7 +55,7 @@ body {
   #dashboard #dashboard-auth #dashboard-newpoll {
     background-color: green;
     color: white;
-    margin-right: 30px;
+    margin-right: 1.9em;
     width: 10em;
     font-weight: bold; }
     #dashboard #dashboard-auth #dashboard-newpoll:hover {
@@ -64,31 +93,31 @@ body {
 #body-dash {
   text-align: center; }
   #body-dash ul {
-    padding-top: 10px;
+    padding-top: .7em;
     display: inline-block; }
   #body-dash a:hover {
     cursor: pointer; }
   #body-dash li {
-    margin-bottom: 10px;
-    margin-right: 10px; }
+    margin-bottom: .7em;
+    margin-right: .7em; }
   #body-dash #newpoll-inputs #poll-name {
-    margin-bottom: 5px; }
+    margin-bottom: .3em; }
   #body-dash #newpoll-inputs #spec {
     color: white;
     pointer-events: none; }
   #body-dash #newpoll-inputs i {
     font-size: 1.5em;
-    padding-left: 5px;
+    padding-left: .3em;
     color: red; }
     #body-dash #newpoll-inputs i:hover {
       cursor: pointer;
       font-size: 2em; }
   #body-dash #newpoll-buttons {
-    padding-top: 10px; }
+    padding-top: .7em; }
     #body-dash #newpoll-buttons #poll-more-btn {
       background-color: gray;
       color: white;
-      margin-right: 10px; }
+      margin-right: .7em; }
       #body-dash #newpoll-buttons #poll-more-btn:hover {
         background-color: #676767; }
     #body-dash #newpoll-buttons #poll-save-btn {
@@ -101,22 +130,22 @@ body {
     margin: 0 auto; }
     #body-dash #body-mypolls #mypolls-polls h3 {
       font-size: 1.4em;
-      padding-left: 10px;
-      padding-right: 10px; }
+      padding-left: .7em;
+      padding-right: .7em; }
     #body-dash #body-mypolls #mypolls-polls .saved-poll {
-      margin-bottom: 30px;
-      padding: 30px; }
+      margin-bottom: 1.9em;
+      padding: 1.9em; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .option {
         color: green; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .result {
         text-align: center;
-        padding-left: 20px; }
+        padding-left: 1.4em; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .url {
         color: #4d4dff;
         font-size: .8em; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .poll-graph {
         display: inline-block;
-        width: 300px;
+        width: 20em;
         height: auto; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll .poll-msg {
         font-size: 1.1em;
@@ -125,22 +154,22 @@ body {
       #body-dash #body-mypolls #mypolls-polls .saved-poll #poll-remove-btn {
         background-color: red;
         color: white;
-        padding-right: 10px;
-        margin-bottom: 10px; }
+        padding-right: .7em;
+        margin-bottom: .7em; }
         #body-dash #body-mypolls #mypolls-polls .saved-poll #poll-remove-btn:hover {
           background-color: #cc0000; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll #twitter-share {
         background-color: #55ACEE;
         color: white;
-        padding-left: 10px;
-        margin-right: 10px;
-        margin-bottom: 10px; }
+        padding-left: .7em;
+        margin-right: .7em;
+        margin-bottom: .7em; }
         #body-dash #body-mypolls #mypolls-polls .saved-poll #twitter-share i {
           font-size: 1.2em; }
         #body-dash #body-mypolls #mypolls-polls .saved-poll #twitter-share:hover {
           background-color: #2795e9; }
       #body-dash #body-mypolls #mypolls-polls .saved-poll:hover {
-        box-shadow: 5px 5px 10px #000;
+        box-shadow: .3em .3em .7em #000;
         cursor: pointer; }
   #body-dash #body-success h1 {
     color: green; }
@@ -149,7 +178,7 @@ body {
     font-weight: bold; }
 
 #footer {
-  padding-top: 50px;
+  padding-top: 3em;
   text-align: center; }
 
 #vote #poll {
