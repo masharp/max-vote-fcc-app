@@ -33,9 +33,6 @@ body {
       padding: .4em; }
       #nav #top #login-btn:hover, #nav #top #welcome-btn:hover, #nav #top #logout-btn:hover {
         cursor: pointer; }
-    @media (max-width: 650px) {
-      #nav #top #welcome-btn {
-        visibility: hidden; } }
 
 #dashboard {
   background-color: #A0785A;

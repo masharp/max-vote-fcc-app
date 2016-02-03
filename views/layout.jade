@@ -26,6 +26,6 @@ html(ng-app="votingApp")
           div.pull-right
             div#login-btn(ng-show="!data.authUser", ng-click="changePage(2)") Sign In
             div#logout-btn(ng-show="data.authUser", ng-click="logout()") Logout
-            div#welcome-nav(ng-show="data.authUser") Hello, {{data.name}}
+            div#welcome-nav.hidden-xs(ng-show="data.authUser") Hello, {{data.name}}
     
     block content
