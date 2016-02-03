@@ -33,6 +33,8 @@ body {
       padding: .4em; }
       #nav #top #login-btn:hover, #nav #top #welcome-btn:hover, #nav #top #logout-btn:hover {
         cursor: pointer; }
+    #nav #top #top-buttons {
+      display: inline; }
 
 #dashboard {
   background-color: #A0785A;
