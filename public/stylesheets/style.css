@@ -2,7 +2,7 @@ body {
   font-family: Arial, Helvetica, sans-serif; }
   @media (max-width: 650px) {
     body {
-      font-size: 10px; } }
+      font-size: 12px; } }
   @media (min-width: 650px) and (max-width: 900px) {
     body {
       font-size: 13px; } }
@@ -58,6 +58,10 @@ body {
     margin-right: 1.9em;
     width: 10em;
     font-weight: bold; }
+    @media (max-width: 650px) {
+      #dashboard #dashboard-auth #dashboard-newpoll {
+        width: 8em;
+        margin-right: 1.5em; } }
     #dashboard #dashboard-auth #dashboard-newpoll:hover {
       background-color: #004d00; }
   #dashboard #dashboard-auth #dashboard-mypolls {
@@ -65,6 +69,10 @@ body {
     color: white;
     width: 10em;
     font-weight: bold; }
+    @media (max-width: 650px) {
+      #dashboard #dashboard-auth #dashboard-mypolls {
+        width: 8em;
+        margin-right: 1.5em; } }
     #dashboard #dashboard-auth #dashboard-mypolls:hover {
       background-color: #234056; }
 

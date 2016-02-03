@@ -5,7 +5,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 
   @media (max-width: 650px) {
-    font-size: 10px;
+    font-size: 12px;
   }
   @media (min-width: 650px) and (max-width: 900px) {
     font-size: 13px;
@@ -80,6 +80,10 @@ body {
       width: 10em;
       font-weight: bold;
 
+      @media (max-width: 650px) {
+        width: 8em;
+        margin-right: 1.5em;
+      }
       &:hover {
         background-color: darken(green, 10);
       }
@@ -90,6 +94,10 @@ body {
       width: 10em;
       font-weight: bold;
 
+      @media (max-width: 650px) {
+        width: 8em;
+        margin-right: 1.5em;
+      }
       &:hover {
         background-color: darken($accent-color, 10);
       }
