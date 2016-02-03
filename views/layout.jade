@@ -23,8 +23,9 @@ html(ng-app="votingApp")
         #top.container
           a(href, ng-click="changePage(0)") MaxVote
           div#home-btn(ng-click="changePage(0)") Home
-          div#login-btn.pull-right(ng-show="!data.authUser", ng-click="changePage(2)") Sign In
-          div#welcome-nav.pull-right(ng-show="data.authUser") Hello, {{data.name}}
-          div#logout-btn.pull-right(ng-show="data.authUser", ng-click="logout()") Logout
+          div.pull-right
+            div#login-btn(ng-show="!data.authUser", ng-click="changePage(2)") Sign In
+            div#logout-btn(ng-show="data.authUser", ng-click="logout()") Logout
+            div#welcome-nav(ng-show="data.authUser") Hello, {{data.name}}
     
     block content

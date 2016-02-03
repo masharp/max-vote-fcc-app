@@ -46,6 +46,11 @@ body {
         cursor: pointer;
       }
     }
+    #welcome-btn {
+      @media (max-width: 650px) {
+        visibility: hidden;
+      }
+    }
   }
 }
 #dashboard {
